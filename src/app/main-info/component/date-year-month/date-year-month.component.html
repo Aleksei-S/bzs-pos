@@ -1,18 +1,7 @@
-<!-- <mat-form-field>
-  <input matInput [matDatepicker]="dp" placeholder="Дата начало строительства"
-   [formControl]="date" 
-   formControlName="date">
-  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-  <mat-datepicker #dp
-                  startView="multi-year"
-                  (yearSelected)="chosenYearHandler($event)"
-                  (monthSelected)="chosenMonthHandler($event, dp)"
-                  panelClass="example-month-picker">
-  </mat-datepicker>
-</mat-form-field> -->
+
 
 <mat-form-field>
-  <input matInput [matDatepicker]="dp" placeholder="Дата начало строительства" [formControl]="date">
+  <input matInput [matDatepicker]="dp" placeholder="Дата начало строительства" [formControl]="date" >
   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
   <mat-datepicker #dp
                   startView="multi-year"
@@ -21,3 +10,5 @@
                   panelClass="example-month-picker">
   </mat-datepicker>
 </mat-form-field>
+
+<!-- <button (click)="clickon()" >AAAAAAAAAA</button> -->

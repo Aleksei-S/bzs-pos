@@ -9,13 +9,19 @@
 </p>
 
 <mat-form-field class="example-full-width">
-  <input matInput placeholder="Favorite food" value="Sushi">
+  <input matInput placeholder="Номер объекта" value="Sushi">
 </mat-form-field>
 
 <mat-form-field class="example-full-width">
-  <textarea matInput placeholder="Leave a comment"></textarea>
+  <textarea matInput placeholder="Наименование объекта"></textarea>
 </mat-form-field>
 
-<app-date-year-month></app-date-year-month>
+<app-date-year-month (updateDate)="changeDateStartBuilding($event)"></app-date-year-month>
+
+<mat-form-field class="example-full-width">
+  <input matInput type="number" placeholder="Продолжительность строительства" (change)="changeLastingBuilding($event.target.value)">
+</mat-form-field>
+
+
 
 <app-table-kalendar></app-table-kalendar>
