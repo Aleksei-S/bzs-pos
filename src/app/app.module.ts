@@ -19,6 +19,7 @@ import { TableKalendarComponent } from './table-kalendar/table-kalendar.componen
 import { MainInfoComponent } from './main-info/main-info.component';
 import { DateYearMonthComponent } from './main-info/component/date-year-month/date-year-month.component';
 import { EditCellTableComponent } from './component/edit-cell-table/edit-cell-table.component';
+import { YearsColdspanPipe } from './table-kalendar/pipe/years-coldspan.pipe';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { EditCellTableComponent } from './component/edit-cell-table/edit-cell-ta
     TableKalendarComponent,
     MainInfoComponent,
     DateYearMonthComponent,
-    EditCellTableComponent
+    EditCellTableComponent,
+    YearsColdspanPipe
   ],
   imports: [
     BrowserModule,

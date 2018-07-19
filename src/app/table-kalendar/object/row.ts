@@ -26,13 +26,13 @@ export class ROW {
     });
   }
 
-  calculateTotal() {
-    let result: number;
-    this.arrMonth.forEach((e, idx, array) => {
-      result = this[e];
+  calculateTotal(row, event) {
+    let result = row[event];
+    this.arrMonth.forEach((e, idx) => {
       if (idx === this.arrMonth.length - 1) {
-        console.log('Last callback call at index' + idx + 'with value ' + e);
+        this[e][event] = result;
       }
+      result = result - this[e][event];
     });
   }
 }
@@ -54,56 +54,23 @@ export class OtherRow extends ROW {
 
 
 export class CELL {
-  public CMP?: number;
+  public CMP: number;
   public Total: number;
-
-  constructor(obj = { CMP: 0, Total: 0 }) {
-
-    this.CMP = obj.CMP;
-    this.Total = obj.Total;
+  constructor() {
+    this.CMP = 0;
+    this.Total = 0;
   }
 }
 
-export class PercentRow extends ROW {
-  name = 'Распределение капвложений по месяцам';
-  createMonth(args: string[]) {
-    this.deleteMonth(this.arrMonth);
-    const arr = [];
+export class PercentRow {
+  constructor(args: string[]) {
     args.forEach((e) => {
-      this[e] = 0;
-      arr.push(e);
+      this[e] = +0;
     });
-    this.arrMonth = arr;
   }
+
 }
 
 
 
 
-
-
-export class TableKalendar  {
-  rows: ROW[];
-  constructor() {}
-
-  calcOtherTable() {
-    let result = 0;
-    this.rows.forEach((row) => {
-      // row.Total = ;
-    });
-  }
-
-  calcCMPTable() {
-    let result = 0;
-    // this.row.forEach((e) => {
-    //   e
-    // });
-  }
-
-  calcRowTable(e) {
-    let result = 0;
-    // this.row.forEach((e) => {
-    //   e
-    // });
-  }
-}
