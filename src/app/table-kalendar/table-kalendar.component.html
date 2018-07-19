@@ -1,68 +1,114 @@
 <p>
-  table-kalendar works!
+        table-kalendar works!
 </p>
 <p>
-  {{table | json}}
+        {{table | json}}
 </p>
 
 
 <table class="mat-elevation-z8">
-  <thead class="mat-header-cell">
-      <tr class="mat-header-row">
-          <th rowspan="3" class="flex-stretch mat-cell">
-              <span>№ <br>п/п</span>
-          </th>
-          <th rowspan="3" class="flex-stretch mat-cell">
-                  <span>Наименование объектов и водов работ</span>
-          </th>
-          <th rowspan="1" colspan="2" class="flex-stretch mat-cell">
-                  <span>Сметная стоимость тыс.руб.</span>
-          </th>
-          <th rowspan="1" [colSpan]="appService.month.length" class="flex-stretch mat-cell">
-                  <span>Распределение капвложений по периодам строительства</span>
-          </th>
-      </tr>
-      <tr class="mat-header-row">
-              <th rowspan="2" class="flex-stretch mat-cell">
-                      <span>Всего</span>
-              </th>
-              <th rowspan="2" class="flex-stretch mat-cell">
-                      <span>СМР</span>
-              </th>
-              <!-- <th rowspan="1"  [colSpan]="obj.coldspan" class="flex-stretch mat-cell"
-               *ngFor="let obj of appService.month | yearsColdspan" >
-                      <span>{{obj.year}}</span>
-              </th> -->
-          </tr>
-          <tr class="mat-header-row">
-                  <!-- <th rowspan="1" colspan="1" class="flex-stretch mat-cell" *ngFor="let month of appService.month">
-                          <span>{{ month.slice(0, -4)}}</span>
-                  </th> -->
-          </tr>
-      
-  </thead>
-  <tbody>
-      <!-- <tr class="mat-row" *ngFor="let row of appService.table; let i = index;">
-          <td class="flex-stretch mat-cell">{{i+1}}</td>
-          <td *ngFor="let key of row | keys"><app-table-input [(value)]="row[key]" (updateValue)="this.row[key] = $event"></app-table-input></td>
-      </tr>
+        <thead class="mat-header-cell">
+                <tr class="mat-header-row">
+                        <th rowspan="3" class="flex-stretch mat-cell">
+                                <span>№
+                                        <br>п/п</span>
+                        </th>
+                        <th rowspan="3" class="flex-stretch mat-cell">
+                                <span>Наименование объектов и водов работ</span>
+                        </th>
+                        <th rowspan="1" colspan="2" class="flex-stretch mat-cell">
+                                <span>Сметная стоимость тыс.руб.</span>
+                        </th>
+                        <th rowspan="1" [colSpan]="arrMonth.length" class="flex-stretch mat-cell">
+                                <span>Распределение капвложений по периодам строительства</span>
+                        </th>
+                </tr>
+                <tr class="mat-header-row">
+                        <th rowspan="2" class="flex-stretch mat-cell">
+                                <span>Всего</span>
+                        </th>
+                        <th rowspan="2" class="flex-stretch mat-cell">
+                                <span>СМР</span>
+                        </th>
+                        <!-- <th rowspan="1"  [colSpan]="obj.coldspan" class="flex-stretch mat-cell"
+        *ngFor="let obj of appService.month | yearsColdspan" >
+                <span>{{obj.year}}</span>
+        </th> -->
+                </tr>
+                <tr class="mat-header-row">
+                        <th rowspan="1" colspan="1" class="flex-stretch mat-cell" *ngFor="let month of arrMonth">
+                                <span>{{ month.slice(0, -4)}}</span>
+                        </th>
+                </tr>
 
+        </thead>
+        <tbody>
+                <tr class="mat-row" *ngFor="let row of table; let i = index;">
+                        <td class="flex-stretch mat-cell">{{i+1}}</td>
+                        <td class="flex-stretch mat-cell">
+                                <app-edit-cell-table [(value)]="row.name" (updateValue)="this.row.name=$event">
+                                </app-edit-cell-table>
+                        </td>
+                        <!-- <td class="flex-stretch mat-cell">
+                                <app-edit-cell-table [(value)]="row.Total" (updateValue)="this.row.Total=$event">
+                                </app-edit-cell-table>
+                        </td> -->
+                        <td class="flex-stretch mat-cell">
+                                <app-edit-cell-table [(value)]="row.Total" (updateValue)="this.row.Total=$event; calculateOtherRow('Total');">
+                                </app-edit-cell-table>
+                        </td>
+                        <td class="flex-stretch mat-cell">
+                                <app-edit-cell-table [(value)]="row.CMP" (updateValue)="this.row.CMP=$event; calculateOtherRow('CMP');">
+                                </app-edit-cell-table>
+                        </td>
+                        
+                        <td class="flex-stretch mat-cell"  *ngFor="let month of arrMonth">
+                                <app-edit-cell-table [(value)]="row[month]" (updateValue)="calculateCellRow(this.row, month, $event);">
+                                </app-edit-cell-table>
+                        </td>
 
-      <tr class="mat-header-row">
-        <td class="flex-stretch mat-cell"></td>
-        <td class="flex-stretch mat-cell">Распределение капвложений по месяцам</td>
-        <td class="flex-stretch mat-cell">{{percentSlice()}}%</td>
-        <td class="flex-stretch mat-cell">{{percentSlice()}}%</td>
-        <td rowspan="1" colspan="1" class="flex-stretch mat-cell" *ngFor="let month of appService.month">
-          <app-table-input [(value)]="appService.percent[month]" (updateValue)="this.appService.percent[month] = $event"></app-table-input>
-        </td>
-      </tr> -->
-  </tbody>
+                        <!-- <td *ngFor="let row of table "><app-table-input [(value)]="row[key]" (updateValue)="this.row[key] = $event"></app-table-input></td> -->
+                </tr>
+                <!-- <tr class="mat-row" *ngFor="let row of table; let i = index;">
+                                <td class="flex-stretch mat-cell"></td>
+                                <td class="flex-stretch mat-cell">
+                                        <app-edit-cell-table [(value)]="row.name" (updateValue)="this.row.name=$event">
+                                        </app-edit-cell-table>
+                                </td>
+                                <td class="flex-stretch mat-cell">
+                                        <app-edit-cell-table [(value)]="row.Total" (updateValue)="this.row.Total=$event">
+                                        </app-edit-cell-table>
+                                </td>
+                                <td class="flex-stretch mat-cell">
+                                        <app-edit-cell-table [(value)]="row.CMP" (updateValue)="this.row.CMP=$event">
+                                        </app-edit-cell-table>
+                                </td>
+                                <td class="flex-stretch mat-cell"  *ngFor="let month of arrMonth">
+                                        <app-edit-cell-table [(value)]="row[month]" (updateValue)="this.row[month]=$event">
+                                        </app-edit-cell-table>
+                                </td>
+                </tr> -->
+        
+
+                <!-- <tr class="mat-header-row">
+<td class="flex-stretch mat-cell"></td>
+<td class="flex-stretch mat-cell">Распределение капвложений по месяцам</td>
+<td class="flex-stretch mat-cell">{{percentSlice()}}%</td>
+<td class="flex-stretch mat-cell">{{percentSlice()}}%</td>
+<td rowspan="1" colspan="1" class="flex-stretch mat-cell" *ngFor="let month of appService.month">
+        <app-table-input [(value)]="appService.percent[month]" (updateValue)="this.appService.percent[month] = $event"></app-table-input>
+</td>
+</tr> -->
+        </tbody>
 </table>
 
 
 
 
 <p>
-  <button (click)="clickOn()">button</button>
+        <button (click)="addRow()">AddRow</button>
 </p>
+
+<p>
+                <button (click)="clickOn()">ClickOn</button>
+        </p>

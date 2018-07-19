@@ -1,0 +1,21 @@
+<div *ngIf="value.constructor.name !== 'CELL'">
+  <div *ngIf="editing" (click)="clickOn()">
+    <mat-form-field class="example-full-width" >
+        <input type="text"  #editInput matInput 
+        (change)="changeVal($event)"
+        (keyup.enter)="onBlur()" 
+        (blur)="onBlur()" >
+    </mat-form-field>
+  </div>
+  <div *ngIf="!editing" (click)="clickOn()">
+      {{value}}
+  </div>
+</div>
+
+<div *ngIf="value.constructor.name === 'CELL'">
+  <app-edit-cell-table [(value)]="value.Total" 
+  (updateValue)="this.value.Total = $event; updateValue.emit('Total');"></app-edit-cell-table>
+      <hr>
+  <app-edit-cell-table [(value)]="value.CMP" 
+  (updateValue)="this.value.CMP = $event; updateValue.emit('CMP');"></app-edit-cell-table>   
+</div>

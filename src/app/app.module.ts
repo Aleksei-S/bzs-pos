@@ -18,13 +18,15 @@ import { AppComponent } from './app.component';
 import { TableKalendarComponent } from './table-kalendar/table-kalendar.component';
 import { MainInfoComponent } from './main-info/main-info.component';
 import { DateYearMonthComponent } from './main-info/component/date-year-month/date-year-month.component';
+import { EditCellTableComponent } from './component/edit-cell-table/edit-cell-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TableKalendarComponent,
     MainInfoComponent,
-    DateYearMonthComponent
+    DateYearMonthComponent,
+    EditCellTableComponent
   ],
   imports: [
     BrowserModule,

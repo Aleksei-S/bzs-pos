@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ROW, CELL } from './object/row';
+import { ROW, PercentRow, TotalRow, OtherRow, CELL } from './object/row';
 import { Subscription } from 'rxjs';
 import { BasicInfoService } from '../service/basic-info.service';
 
@@ -18,6 +18,10 @@ export class TableKalendarComponent implements OnInit {
   dateStartBuilding: Moment;
   lastingBuilding: number;
   table: ROW[] = [];
+  arrMonth: string[] = [];
+
+
+
   constructor(private infoService: BasicInfoService) { }
 
   ngOnInit() {
@@ -35,12 +39,14 @@ export class TableKalendarComponent implements OnInit {
         console.log(num);
         this.lastingBuilding = num;
         this.changeTable();
+        // this.
       });
 
 
-    this.table.push(new ROW('FFFFFFFFFFF'));
-    this.table.push(new ROW('FFFFFFFFFFF222222'));
-    this.table.push(new ROW('FFFFFFFFFFF3333'));
+    this.table.push(new ROW('Жилой дом'));
+    this.table.push(new OtherRow());
+    this.table.push(new TotalRow());
+    this.table.push(new PercentRow([]));
     // console.log(this.table);
 
   }
@@ -56,24 +62,66 @@ export class TableKalendarComponent implements OnInit {
     this.table.forEach((row) => {
       row.createMonth(arrMonth);
     });
+    this.arrMonth = arrMonth;
     //  this.service.addMonth(arrMonth);
     //  this.service.addPercent(arrMonth);
     // // console.log(arrMonth);
   }
 
 
+  addRow() {
+    const r = new ROW('NEEWWWWWWW');
+    r.createMonth(this.arrMonth);
+    this.table.push(r);
+  }
 
 
 
+  calculateOtherRow(value) {
+    let other:  OtherRow;
+    let total:  TotalRow;
+    let result = 0;
+    this.table.forEach((e) => {
+      if (e instanceof OtherRow) {
+        other = e;
+      } else if (e instanceof TotalRow) {
+        total = e;
+      } else if (e instanceof PercentRow) {
+      } else {
+        result = result + e[value];
+      }
+    });
+    other[value] = total[value] - result;
+  }
 
-
-
-
+  calculateCellRow( row, month, event ) {
+    // row[month] = event;
+    // let other:  OtherRow;
+    // let total:  TotalRow;
+    // let result = 0;
+    console.log(row);
+    console.log(month);
+    console.log(event);
+    // this.table.forEach((e) => {
+    //   if (e instanceof OtherRow) {
+    //     other = e;
+    //   } else if (e instanceof TotalRow) {
+    //     total = e;
+    //   } else if (e instanceof PercentRow) {
+    //   } else {
+    //     result = result + e[value];
+    //   }
+    // });
+  }
 
 
   clickOn() {
     // this.table.createMonth(['ffff111', 'ffff222', 'ffff333']);
     console.log(this.table);
+    this.table.forEach((e) => {
+      console.log(e instanceof PercentRow);
+    });
+
   }
 
   // clickOn2() {
