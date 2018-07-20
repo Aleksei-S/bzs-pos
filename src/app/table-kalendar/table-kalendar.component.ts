@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ROW, PercentRow, TotalRow, OtherRow, MainRow, CELL } from './object/row';
 import { Subscription } from 'rxjs';
 import { BasicInfoService } from '../service/basic-info.service';
+import { TableKalendarService } from './table-kalendar.service';
 
 import {Moment} from 'moment';
 import * as moment from 'moment';
@@ -22,7 +23,8 @@ export class TableKalendarComponent implements OnInit {
   percentRow: PercentRow;
 
 
-  constructor(private infoService: BasicInfoService) { }
+  constructor(private infoService: BasicInfoService,
+              private tableService: TableKalendarService,) { }
 
   ngOnInit() {
     this.subsDate$ = this.infoService.date$
@@ -53,15 +55,28 @@ export class TableKalendarComponent implements OnInit {
       row.createMonth(arrMonth);
     });
     this.arrMonth = arrMonth;
-    this.percentRow = new PercentRow(arrMonth);
+    this.tableService.getPercentRow(arrMonth.length);
+    
   }
-
 
   addRow() {
     const r = new ROW('NEEWWWWWWW');
     r.createMonth(this.arrMonth);
     this.table.push(r);
   }
+
+  calculate() {
+    this.table.forEach((row) => {
+      if (row.calculate === true) {
+        this.arrMonth.forEach((month) => {
+          row[month]['CMP'] =  parseFloat((row['CMP'] * (this.percentRow[month] / 100)).toFixed(2));
+          row[month]['Total'] =  parseFloat((row['Total'] * (this.percentRow[month] / 100)).toFixed(2));
+        });
+      }
+    });
+  }
+
+
 
 
   calculateOtherRow(value, ) {
