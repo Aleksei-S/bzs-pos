@@ -1,0 +1,26 @@
+hr {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  /* width: 100%; */
+  /* width: 5em; */
+  width: 60px;
+  border: none; 
+  color:  black; 
+  background-color: black; 
+  height: 1px; /* Толщина линии */
+}
+span {
+font-size: 1px;
+height: 1px; /* Толщина линии */
+width: 100%;
+}
+.example-full-width {
+  width: 100%;
+}
+
+
+
+

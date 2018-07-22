@@ -26,15 +26,20 @@ export class ROW {
     });
   }
 
-  calculateTotal(row, event) {
-    let result = row[event];
+
+  calculateTotal() {
+    let resultCMP = this['CMP'];
+    let resultTotal = this['Total'];
     this.arrMonth.forEach((e, idx) => {
       if (idx === this.arrMonth.length - 1) {
-        this[e][event] = result;
+        this[e]['CMP'] = resultCMP;
+        this[e]['Total'] = resultTotal;
       }
-      result = result - this[e][event];
+      resultCMP = parseFloat((resultCMP - this[e]['CMP']).toFixed(2));
+      resultTotal =  parseFloat((resultTotal - this[e]['Total']).toFixed(2));
     });
   }
+
 }
 
 export class MainRow extends ROW {
@@ -63,14 +68,28 @@ export class CELL {
 }
 
 export class PercentRow {
+  arrMonth: string[] = [];
   constructor(args: string[]) {
+    this.arrMonth = args;
     args.forEach((e) => {
       this[e] = +0;
     });
   }
-
+  calcPercent() {
+    let result = 0;
+    this.arrMonth.forEach((e) => {
+      result = result + (+this[e]);
+    });
+    return result;
+  }
 }
 
+export class Percent {
+  6 = [12, 18, 20, 15, 15, 20];
+  6.5 = [10, 15, 15, 13, 12, 15, 20];
+  7 = [10, 15, 15, 13, 12, 15, 20];
+  7.5 = [10, 12, 12, 13, 10, 11, 14, 18];
+}
 
 
 

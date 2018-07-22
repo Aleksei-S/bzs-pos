@@ -1,27 +1,48 @@
-<p>
-  main-info works!
-</p>
+
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-md-7">
+      <mat-form-field class="example-full-width">
+        <textarea matInput placeholder="Наименование объекта"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3 offset-md-2">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Номер объекта" value="Sushi">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <app-date-year-month (updateDate)="changeDateStartBuilding($event)"></app-date-year-month>
+    </div>
+    <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+            <input matInput type="number" placeholder="Продолжительность строительства" (change)="changeLastingBuilding($event.target.value)">
+          </mat-form-field>
+      </div>
+  </div>
+
+  <!-- <div class="row">
+    <div class="col-md-12">
+        <app-table-kalendar></app-table-kalendar> 
+    </div>
+  </div> -->
+
+  <mat-tab-group>
+      <mat-tab label="Календарный план"> <app-table-kalendar></app-table-kalendar></mat-tab>
+      <mat-tab label="строителей"> <app-calculation-workers></app-calculation-workers> </mat-tab>
+      <mat-tab label="Third"> <app-calculation-cabins-for-workers></app-calculation-cabins-for-workers> </mat-tab>
+      <mat-tab label="Third"> <app-calculation-storehouse></app-calculation-storehouse> </mat-tab>
+      <mat-tab label="Third"> <app-calculation-energy-resources></app-calculation-energy-resources> </mat-tab>
 
 
-<input  placeholder="Дата начало строительства" >
-<p>
-  main-info works!
-</p>
+    </mat-tab-group>
 
-<mat-form-field class="example-full-width">
-  <input matInput placeholder="Номер объекта" value="Sushi">
-</mat-form-field>
-
-<mat-form-field class="example-full-width">
-  <textarea matInput placeholder="Наименование объекта"></textarea>
-</mat-form-field>
-
-<app-date-year-month (updateDate)="changeDateStartBuilding($event)"></app-date-year-month>
-
-<mat-form-field class="example-full-width">
-  <input matInput type="number" placeholder="Продолжительность строительства" (change)="changeLastingBuilding($event.target.value)">
-</mat-form-field>
+</div>
 
 
-
-<app-table-kalendar></app-table-kalendar>
+<!-- <mat-form-field class="col-md-2">
+    <input matInput placeholder="Номе р объекта" value="Sushi">
+</mat-form-field> -->

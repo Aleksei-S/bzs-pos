@@ -1,4 +1,37 @@
 import { Component, OnInit, ViewChild, Input, Renderer2, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'valueTable'
+})
+export class ValueTablePipe implements PipeTransform {
+
+  transform(value, args: string[]): any {
+    // console.log(args);
+    if (value === 0) {
+      return '-';
+    }
+    // num.toString().replace(3,'three');
+
+    value = value.toString().replace('.', ',');
+
+    // value = value.replace('.', ',');
+    // alert('12-34-56'.replace("-", ":")) // 12:34-56
+    //  if (value.indexOf('.') > 0) {
+    //   // value.toString();
+    //   // alert( '12-34-56'.replace( /-/g, ":" ) )  // 12:34:56
+
+    //   console.log(typeof(value));
+    //   let res = value.replace('.', ',');
+    //   console.log(res);
+    //   return res;
+    // //   return '-';
+    //  }
+     return value;
+  }
+
+}
+
 
 @Component({
   selector: 'app-edit-cell-table',
@@ -18,7 +51,8 @@ export class EditCellTableComponent implements OnInit {
   }
 
   changeVal(e) {
-    this.updateValue.emit(e.target.value);
+    const value = e.target.value.toString().replace(',', '.');
+    this.updateValue.emit(value);
   }
   clickOn() {
     this.editing = true;

@@ -6,6 +6,7 @@ import { TableKalendarService } from './table-kalendar.service';
 
 import {Moment} from 'moment';
 import * as moment from 'moment';
+import { tick } from '../../../node_modules/@angular/core/testing';
 
 @Component({
   selector: 'app-table-kalendar',
@@ -13,7 +14,7 @@ import * as moment from 'moment';
   styleUrls: ['./table-kalendar.component.css']
 })
 export class TableKalendarComponent implements OnInit {
-
+ 
   private subsDate$: Subscription;
   private lastingBuilding$: Subscription;
   dateStartBuilding: Moment;
@@ -21,10 +22,11 @@ export class TableKalendarComponent implements OnInit {
   table: ROW[] = [];
   arrMonth: string[] = [];
   percentRow: PercentRow;
-
-
+  dragIndex: number;
+  
   constructor(private infoService: BasicInfoService,
-              private tableService: TableKalendarService,) { }
+              private tableService: TableKalendarService,
+            ) { }
 
   ngOnInit() {
     this.subsDate$ = this.infoService.date$
@@ -38,8 +40,10 @@ export class TableKalendarComponent implements OnInit {
         this.lastingBuilding = num;
         this.changeTable();
       });
-
+    this.table.push(new ROW('Подготовка территории'));
     this.table.push(new MainRow());
+    this.table.push(new ROW('Инженерные сети'));
+    this.table.push(new ROW('Временные здания'));
     this.table.push(new OtherRow());
     this.table.push(new TotalRow());
   }
@@ -55,9 +59,21 @@ export class TableKalendarComponent implements OnInit {
       row.createMonth(arrMonth);
     });
     this.arrMonth = arrMonth;
-    this.tableService.getPercentRow(arrMonth.length);
-    
+    this.percentRow = new PercentRow(arrMonth);
+    this.setValuePercentRow();
   }
+
+
+  setValuePercentRow() {
+    const arrPercent = this.tableService.getPercentRow(this.lastingBuilding);
+    if (arrPercent === undefined) {return; }
+    for (let index = 0; index < +this.lastingBuilding; index++) {
+      const month = this.percentRow.arrMonth[index];
+      this.percentRow[month] = arrPercent[index];
+    }
+  }
+
+
 
   addRow() {
     const r = new ROW('NEEWWWWWWW');
@@ -75,8 +91,6 @@ export class TableKalendarComponent implements OnInit {
       }
     });
   }
-
-
 
 
   calculateOtherRow(value, ) {
@@ -97,30 +111,25 @@ export class TableKalendarComponent implements OnInit {
   }
 
   calculateCellRow( row, month, event ) {
-    if (row instanceof ROW) {
-      row.calculateTotal(row, event);
-    }
-
-    if (row instanceof TotalRow) {
-      return;
-    } else if (row instanceof ROW) {
-      this.calculateTotalCELL(month, event);
+    row.calculateTotal();
+    if (!(row instanceof TotalRow)) {
+      this.calculateTotalRow(month, event);
     }
   }
 
-  calculateTotalCELL(month, event) {
+  calculateTotalRow(month, event) {
     let total:  TotalRow;
-    let result: number;
-    result = 0;
+    let result = 0;
     this.table.forEach((e) => {
       if (e instanceof TotalRow) {
         total = e;
       } else {
         result = result + (+e[month][event]);
+        // result =  parseFloat((result + (+e[month][event])).toFixed(2));
       }
     });
     total[month][event] = result;
-    total.calculateTotal(total, event);
+    total.calculateTotal();
   }
 
 
@@ -132,5 +141,33 @@ export class TableKalendarComponent implements OnInit {
     // });
 
   }
+
+
+  allowDrop(ev) {
+    ev.preventDefault();
+  }
+
+  drag(ev, index) {
+    this.dragIndex = index;
+  }
+
+  drop(ev, index) {
+    // менять местами
+    [this.table[this.dragIndex], this.table[index]] = [this.table[index], this.table[this.dragIndex]];
+  }
+
+  dropBasket(ev) {
+    if (this.table[this.dragIndex] instanceof TotalRow ||
+      this.table[this.dragIndex] instanceof OtherRow ||
+      this.table[this.dragIndex] instanceof MainRow) {return; }
+      this.table.splice(this.dragIndex, 1); // удалить 1 строку
+  }
+
+
+
+
+
+
+
 
 }
