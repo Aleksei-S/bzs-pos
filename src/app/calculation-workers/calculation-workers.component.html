@@ -1,5 +1,5 @@
 <p>
-  calculation-workers works!
+  Потребность в кадрах строителей
 </p>
 
 <div class="container-fluid">
@@ -28,17 +28,17 @@
         <tr>
           <td class="tdLeft"> Кол-во работающих, (Тч-час:8час:{{lastingBuilding}}мес:22дн)</td>
           <td> чел </td>
-          <td> {{(workCapacity/(8*lastingBuilding*22))}}</td>
+          <td> {{sumWorkers}}</td>
         </tr>
         <tr>
           <td class="tdLeft"> в т.ч. рабочих,</td>
           <td> чел </td>
-          <td> 0 </td>
+          <td> {{workers}} </td>
         </tr>
         <tr>
           <td class="tdLeft"> ИТР и МОП /15,5% от общего количества </td>
           <td> чел </td>
-          <td> 0 </td>
+          <td> {{ITR}} </td>
         </tr>
       </tbody>
 
@@ -48,70 +48,91 @@
 </div>
 
 <div class="col-md-7 col-sm-10 col-sm-offset-1">
-    <p>-число  рабочих на объекте в наиболее многочисленную смену составляет 70% от обще-го количества, т.е. {{22}} чел.</p>
-    <p>-число ИТР, служащих и МОП в наиболее многочисленную смену составляет 80% от их общего количества, т.е. {{22}} чел.</p>
-    <p>-количество работающих на объекте строителей в наиболее многочисленную смену составит ({{22}} + {{2}}x0,5) = {{22}} чел. </p>
+    <p>-число  рабочих на объекте в наиболее многочисленную смену составляет 70% от обще-го количества, т.е. {{workingInTheShift}} чел.</p>
+    <p>-число ИТР, служащих и МОП в наиболее многочисленную смену составляет 80% от их общего количества, т.е. {{ITRInTheShift}} чел.</p>
+    <p>-количество работающих на объекте строителей в наиболее многочисленную смену составит ({{workingInTheShift}} + {{ITRInTheShift}}x0,5) = {{sumInTheShift}} чел. </p>
 </div>
 
+<p>
+  Потребность в бытовых помещениях
+</p>
 
-<!-- <div class="row">
-<div class="col-md-7 col-sm-10 col-sm-offset-1">
-<table class="table table-bordered table-hover typicalTab">
-<tr>
-<td>Наименование</td>
-<td >Ед.измерен.</td>
-<td >Количество на период строительства</td>
-</tr>
-<tr>
-<td class="tdLeft">
-Трудоемкость работ по сводному сметному расчету
-</td>
-<td >
-чел-час.
-</td>
-<td>
-<text-tablval  text="workCapacity" key=""></text-tablval></td>
-</tr>
-<tr>
-<td class="tdLeft">
-Кол-во работающих,  (Тч-час:8час:{{timeBuilding}}мес:22дн)
-</td>
-<td >
-чел
-</td>
-<td >{{ObjWorkTabl.sumWorking}}</td>
-</tr>
-<tr>
-<td class="tdLeft">
-в т.ч. рабочих,
-</td>
-<td >
-чел
-</td>
-<td >{{ObjWorkTabl.working}}</td>
-</tr>
-<tr>
-<td class="tdLeft">
-ИТР и МОП /15,5% от общего количества/
-</td>
-<td >
-чел
-</td>
-<td >{{ObjWorkTabl.ITR}}</td>
-</tr>
-
+<table>
+  <tr>
+    <td>Наименование</td>
+    <td >Норма  на 1-го работающего в максим. смену м2</td>
+    <td >Количество работающих в максимальную смену, чел.</td>
+    <td >Количество рабочих в макси-мальную смену, чел.</td>
+    <td >Общая потребность м2</td>
+  </tr>
+  <tr>
+    <td colspan="5"> 1.Административные здания.</td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Прорабская</td>
+    <td >4</td>
+    <td >{{ITRInTheShift}}</td>
+    <td >-</td>
+    <td >{{(ITRInTheShift*4).toFixed(1)}}</td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Диспетчерская</td>
+    <td >7</td>
+    <td >1</td>
+    <td >-</td>
+    <td >7.0</td>
+  </tr>
+  <tr>
+    <td colspan="5">II. Бытовые помещения</td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Гардеробная</td>
+    <td >0,6</td>
+    <td >-</td>
+    <td >{{workers}}</td>
+    <td >{{(workers*0.6).toFixed(1)}}</td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Душевая (1 сетка на 15 чел.)</td>
+    <td >0,287</td>
+    <td >-</td>
+    <td >{{workingInTheShift}}</td>
+    <td >{{(workingInTheShift*0.287).toFixed(1)}}</td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Умывальная (1 кран на 20 чел.)</td>
+    <td >0,065</td>
+    <td >{{sumInTheShift}}</td>
+    <td >-</td>
+    <td >{{(sumInTheShift*0.065).toFixed(1)}}</td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Сушилка (не менее 4 м2)</td>
+    <td >0,15</td>
+    <td >-</td>
+    <td >{{workingInTheShift}}</td>
+    <td >{{((workingInTheShift*0.15).toFixed(1)<4)?4:(workingInTheShift*0.15).toFixed(1)}}</td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Помещение для приема пищи (не менее 12 м2)</td>
+    <td >0,25</td>
+    <td >{{sumInTheShift}}</td>
+    <td >-</td>
+    <td >{{((sumInTheShift*0.25).toFixed(1)<12)?12:(sumInTheShift*0.25).toFixed(1)}}</td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Помещение для обогрева рабочих(не менее 8 м2)</td>
+    <td >0,1</td>
+    <td >-</td>
+    <td >{{workingInTheShift}}</td>
+    <td >{{((workingInTheShift*0.1).toFixed(1)<8)?8:(workingInTheShift*0.1).toFixed(1)}}</td>
+  </tr>
+  <tr>   
+    <td class="tdLeft">Уборная</td>
+    <td >0,1</td>
+    <td >{{sumInTheShift}}</td>
+    <td >-</td>
+    <td >{{(sumInTheShift*0.1).toFixed(1)}}</td>
+  </tr>
 </table>
-
-</div>
-</div>
-<div class="col-sm-5">
-<p></p>
-</div>
-</div>
-<div class="row">
-<div class="col-md-7 col-sm-10 col-sm-offset-1">
-<p>-число  рабочих на объекте в наиболее многочисленную смену составляет 70% от обще-го количества, т.е. {{ObjWorkTabl.workingInTheShift}} чел.</p>
-<p>-число ИТР, служащих и МОП в наиболее многочисленную смену составляет 80% от их общего количества, т.е. {{ObjWorkTabl.ITRInTheShift}} чел.</p>
-<p>-количество работающих на объекте строителей в наиболее многочисленную смену составит ({{ObjWorkTabl.workingInTheShift}} + {{ObjWorkTabl.ITRInTheShift}}x0,5) = {{ObjWorkTabl.sumInTheShift}} чел. </p>
-</div>
-</div> -->
+<button (click) = "onClick()">Click</button>

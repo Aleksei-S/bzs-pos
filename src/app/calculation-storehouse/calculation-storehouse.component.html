@@ -1,7 +1,9 @@
 <p>
   calculation-storehouse works!
 </p>
-
+<mat-form-field class="example-full-width">
+  <input matInput type="number" placeholder="Коэффициент" (change)="changeCoef($event.target.value)">
+</mat-form-field>
 
 <table>
     <tr>
@@ -14,7 +16,7 @@
     <tr>
       <td class="tdLeft">Склад материально-технический отапливаемый</td>
       <td >24,0</td>
-      <td ><br>k=2,7х1267х</td>
+      <td >{{yearSumma.resultCMP}}<br>k=2,7х1267х{{coef}}</td>
       <td ></td>
     </tr>
 

@@ -1,12 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BasicInfoService } from '../service/basic-info.service';
+
+
 
 @Component({
   selector: 'app-main-info',
   templateUrl: './main-info.component.html',
   styleUrls: ['./main-info.component.css']
 })
+
+
 export class MainInfoComponent implements OnInit {
+
+  @ViewChild('kalendar') kalendar;
 
   constructor(private infoService: BasicInfoService) { }
 
@@ -14,12 +20,27 @@ export class MainInfoComponent implements OnInit {
   }
 
   changeLastingBuilding(e) {
-    this.infoService.lastingBuilding$.next(e);
+    const value = e.toString().replace(',', '.');
+    this.infoService.lastingBuilding$.next(value);
   }
 
   changeDateStartBuilding(date) {
     this.infoService.date$.next(date);
   }
+
+  changeTabs($event) {
+    console.log($event);
+    if ($event.index !== 0) {
+      this.kalendar.saveTable();
+      console.log(this.kalendar.table);
+    }
+
+  }
+
+  onClick() {
+    console.log(this.kalendar);
+  }
+
 
 }
 

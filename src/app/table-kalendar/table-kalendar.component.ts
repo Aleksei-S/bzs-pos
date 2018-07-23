@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { BasicInfoService } from '../service/basic-info.service';
 import { TableKalendarService } from './table-kalendar.service';
 
-import {Moment} from 'moment';
+import { Moment } from 'moment';
 import * as moment from 'moment';
 import { tick } from '../../../node_modules/@angular/core/testing';
 
@@ -14,7 +14,7 @@ import { tick } from '../../../node_modules/@angular/core/testing';
   styleUrls: ['./table-kalendar.component.css']
 })
 export class TableKalendarComponent implements OnInit {
- 
+
   private subsDate$: Subscription;
   private lastingBuilding$: Subscription;
   dateStartBuilding: Moment;
@@ -23,19 +23,20 @@ export class TableKalendarComponent implements OnInit {
   arrMonth: string[] = [];
   percentRow: PercentRow;
   dragIndex: number;
-  
+
   constructor(private infoService: BasicInfoService,
-              private tableService: TableKalendarService,
-            ) { }
+    private tableService: TableKalendarService,
+  ) { }
 
   ngOnInit() {
+    console.log('ngOnInit tabl');
     this.subsDate$ = this.infoService.date$
       .subscribe((moments) => {
         this.dateStartBuilding = moments;
         this.changeTable();
       });
 
-      this.lastingBuilding$ = this.infoService.lastingBuilding$
+    this.lastingBuilding$ = this.infoService.lastingBuilding$
       .subscribe((num) => {
         this.lastingBuilding = num;
         this.changeTable();
@@ -66,7 +67,7 @@ export class TableKalendarComponent implements OnInit {
 
   setValuePercentRow() {
     const arrPercent = this.tableService.getPercentRow(this.lastingBuilding);
-    if (arrPercent === undefined) {return; }
+    if (arrPercent === undefined) { return; }
     for (let index = 0; index < +this.lastingBuilding; index++) {
       const month = this.percentRow.arrMonth[index];
       this.percentRow[month] = arrPercent[index];
@@ -85,8 +86,8 @@ export class TableKalendarComponent implements OnInit {
     this.table.forEach((row) => {
       if (row.calculate === true) {
         this.arrMonth.forEach((month) => {
-          row[month]['CMP'] =  parseFloat((row['CMP'] * (this.percentRow[month] / 100)).toFixed(2));
-          row[month]['Total'] =  parseFloat((row['Total'] * (this.percentRow[month] / 100)).toFixed(2));
+          row[month]['CMP'] = parseFloat((row['CMP'] * (this.percentRow[month] / 100)).toFixed(2));
+          row[month]['Total'] = parseFloat((row['Total'] * (this.percentRow[month] / 100)).toFixed(2));
         });
       }
     });
@@ -110,7 +111,7 @@ export class TableKalendarComponent implements OnInit {
     other[value] = total[value] - result;
   }
 
-  calculateCellRow( row, month, event ) {
+  calculateCellRow(row, month, event) {
     row.calculateTotal();
     if (!(row instanceof TotalRow)) {
       this.calculateTotalRow(month, event);
@@ -118,7 +119,7 @@ export class TableKalendarComponent implements OnInit {
   }
 
   calculateTotalRow(month, event) {
-    let total:  TotalRow;
+    let total: TotalRow;
     let result = 0;
     this.table.forEach((e) => {
       if (e instanceof TotalRow) {
@@ -159,14 +160,41 @@ export class TableKalendarComponent implements OnInit {
   dropBasket(ev) {
     if (this.table[this.dragIndex] instanceof TotalRow ||
       this.table[this.dragIndex] instanceof OtherRow ||
-      this.table[this.dragIndex] instanceof MainRow) {return; }
-      this.table.splice(this.dragIndex, 1); // удалить 1 строку
+      this.table[this.dragIndex] instanceof MainRow) { return; }
+    this.table.splice(this.dragIndex, 1); // удалить 1 строку
   }
 
 
 
 
+  saveTable() {
+    // console.log('ngOnDestroy');
+    if (this.arrMonth.length === 0) {
+      return;
+    }
+    let total: TotalRow;
+    this.table.forEach((e) => {
+      if (e instanceof TotalRow) {
+        total = e;
+      }
+    });
 
+    const keys = [];
+    let year = this.arrMonth[0].slice(-4);
+    let resultCMP = 0;
+    this.arrMonth.forEach((month) => {
+      if (year !== month.slice(-4)) {
+        keys.push({ year: year, resultCMP: resultCMP });
+        resultCMP = total[month]['CMP'];
+        year = month.slice(-4);
+      } else {
+        resultCMP = resultCMP + total[month]['CMP'];
+      }
+    });
+
+    keys.push({ year: year, resultCMP: resultCMP });
+    this.infoService.yearSumma$.next(keys);
+  }
 
 
 

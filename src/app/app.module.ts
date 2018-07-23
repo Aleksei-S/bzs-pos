@@ -24,7 +24,7 @@ import { EditCellTableComponent } from './component/edit-cell-table/edit-cell-ta
 import { YearsColdspanPipe } from './table-kalendar/pipe/years-coldspan.pipe';
 import { ValueTablePipe } from './component/edit-cell-table/edit-cell-table.component';
 import { CalculationWorkersComponent } from './calculation-workers/calculation-workers.component';
-import { CalculationCabinsForWorkersComponent } from './calculation-cabins-for-workers/calculation-cabins-for-workers.component';
+
 import { CalculationStorehouseComponent } from './calculation-storehouse/calculation-storehouse.component';
 import { CalculationEnergyResourcesComponent } from './calculation-energy-resources/calculation-energy-resources.component';
 
@@ -38,7 +38,6 @@ import { CalculationEnergyResourcesComponent } from './calculation-energy-resour
     YearsColdspanPipe,
     ValueTablePipe,
     CalculationWorkersComponent,
-    CalculationCabinsForWorkersComponent,
     CalculationStorehouseComponent,
     CalculationEnergyResourcesComponent
   ],
