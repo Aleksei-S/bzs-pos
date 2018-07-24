@@ -16,34 +16,34 @@
     <tr>
       <td class="tdLeft">Склад материально-технический отапливаемый</td>
       <td >24,0</td>
-      <td >{{yearSumma.resultCMP}}<br>k=2,7х1267х{{coef}}</td>
-      <td ></td>
+      <td >{{yearSumma.resultCMP | numberTab}}<br>k=2,7х1267х{{coef | numberTab}}</td>
+      <td >{{(yearSumma.resultCMP/(2.7*1267*coef)*24).toFixed(2) | numberTab}}</td>
     </tr>
 
     <tr>
       <td class="tdLeft">Склад материально-технический не отапливаемый</td>
       <td >29,0</td>
       <td >-"-</td>
-      <td ></td>
+      <td >{{(yearSumma.resultCMP/(2.7*1267*coef)*29).toFixed(2) | numberTab}}</td>
     </tr>
 
     <tr>
       <td class="tdLeft">Склад для хранения материалов (цемента, гипса, извести и т.д.)</td>
       <td >21,2</td>
       <td >-"-</td>
-      <td ></td>
+      <td >{{(yearSumma.resultCMP/(2.7*1267*coef)*21.2).toFixed(2) | numberTab}}</td>
     </tr>
     <tr>
       <td class="tdLeft">Навес</td>
       <td >13,0</td>
       <td >-"-</td>
-      <td ></td>
+      <td >{{(yearSumma.resultCMP/(2.7*1267*coef)*13).toFixed(2) | numberTab}}</td>
     </tr>
     <tr>
       <td class="tdLeft">Открытые площадки</td>
       <td >300,0</td>
       <td >-"-</td>
-      <td ></td>
+      <td >{{(yearSumma.resultCMP/(2.7*1267*coef)*300).toFixed(2) | numberTab}}</td>
     </tr>
 
   </table>

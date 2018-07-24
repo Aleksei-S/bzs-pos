@@ -21,12 +21,13 @@ import { TableKalendarComponent } from './table-kalendar/table-kalendar.componen
 import { MainInfoComponent } from './main-info/main-info.component';
 import { DateYearMonthComponent } from './main-info/component/date-year-month/date-year-month.component';
 import { EditCellTableComponent } from './component/edit-cell-table/edit-cell-table.component';
-import { YearsColdspanPipe } from './table-kalendar/pipe/years-coldspan.pipe';
+import { YearsColdspanPipe } from './pipe/years-coldspan.pipe';
 import { ValueTablePipe } from './component/edit-cell-table/edit-cell-table.component';
 import { CalculationWorkersComponent } from './calculation-workers/calculation-workers.component';
 
 import { CalculationStorehouseComponent } from './calculation-storehouse/calculation-storehouse.component';
 import { CalculationEnergyResourcesComponent } from './calculation-energy-resources/calculation-energy-resources.component';
+import { NumberTabPipe } from './pipe/number-tab.pipe';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { CalculationEnergyResourcesComponent } from './calculation-energy-resour
     ValueTablePipe,
     CalculationWorkersComponent,
     CalculationStorehouseComponent,
-    CalculationEnergyResourcesComponent
+    CalculationEnergyResourcesComponent,
+    NumberTabPipe,
   ],
   imports: [
     BrowserModule,

@@ -22,6 +22,9 @@ export class CalculationStorehouseComponent implements OnInit {
   private yearSumma: YEARSUMMA;
   private yearSumma$: Subscription;
 
+  private store = 0;
+  // private store = 0;
+
   constructor(private infoService: BasicInfoService) { }
 
   ngOnInit() {
@@ -48,5 +51,5 @@ export class CalculationStorehouseComponent implements OnInit {
       }
     });
   }
-
+  
 }

@@ -73,14 +73,14 @@
     <td >4</td>
     <td >{{ITRInTheShift}}</td>
     <td >-</td>
-    <td >{{(ITRInTheShift*4).toFixed(1)}}</td>
+    <td >{{(ITRInTheShift*4).toFixed(1) | numberTab}}</td>
   </tr>
   <tr>
     <td class="tdLeft">Диспетчерская</td>
     <td >7</td>
     <td >1</td>
     <td >-</td>
-    <td >7.0</td>
+    <td >7,0</td>
   </tr>
   <tr>
     <td colspan="5">II. Бытовые помещения</td>
@@ -90,49 +90,49 @@
     <td >0,6</td>
     <td >-</td>
     <td >{{workers}}</td>
-    <td >{{(workers*0.6).toFixed(1)}}</td>
+    <td >{{(workers*0.6).toFixed(1) | numberTab}}</td>
   </tr>
   <tr>
     <td class="tdLeft">Душевая (1 сетка на 15 чел.)</td>
     <td >0,287</td>
     <td >-</td>
     <td >{{workingInTheShift}}</td>
-    <td >{{(workingInTheShift*0.287).toFixed(1)}}</td>
+    <td >{{(workingInTheShift*0.287).toFixed(1) | numberTab}}</td>
   </tr>
   <tr>
     <td class="tdLeft">Умывальная (1 кран на 20 чел.)</td>
     <td >0,065</td>
     <td >{{sumInTheShift}}</td>
     <td >-</td>
-    <td >{{(sumInTheShift*0.065).toFixed(1)}}</td>
+    <td >{{(sumInTheShift*0.065).toFixed(1) | numberTab}}</td>
   </tr>
   <tr>
     <td class="tdLeft">Сушилка (не менее 4 м2)</td>
     <td >0,15</td>
     <td >-</td>
     <td >{{workingInTheShift}}</td>
-    <td >{{((workingInTheShift*0.15).toFixed(1)<4)?4:(workingInTheShift*0.15).toFixed(1)}}</td>
+    <td >{{((workingInTheShift*0.15).toFixed(1)<4)?4:(workingInTheShift*0.15).toFixed(1) | numberTab}}</td>
   </tr>
   <tr>
     <td class="tdLeft">Помещение для приема пищи (не менее 12 м2)</td>
     <td >0,25</td>
     <td >{{sumInTheShift}}</td>
     <td >-</td>
-    <td >{{((sumInTheShift*0.25).toFixed(1)<12)?12:(sumInTheShift*0.25).toFixed(1)}}</td>
+    <td >{{((sumInTheShift*0.25).toFixed(1)<12)?12:(sumInTheShift*0.25).toFixed(1) | numberTab}}</td>
   </tr>
   <tr>
     <td class="tdLeft">Помещение для обогрева рабочих(не менее 8 м2)</td>
     <td >0,1</td>
     <td >-</td>
     <td >{{workingInTheShift}}</td>
-    <td >{{((workingInTheShift*0.1).toFixed(1)<8)?8:(workingInTheShift*0.1).toFixed(1)}}</td>
+    <td >{{((workingInTheShift*0.1).toFixed(1)<8)?8:(workingInTheShift*0.1).toFixed(1) | numberTab}}</td>
   </tr>
   <tr>   
     <td class="tdLeft">Уборная</td>
     <td >0,1</td>
     <td >{{sumInTheShift}}</td>
     <td >-</td>
-    <td >{{(sumInTheShift*0.1).toFixed(1)}}</td>
+    <td >{{(sumInTheShift*0.1).toFixed(1) | numberTab}}</td>
   </tr>
 </table>
 <button (click) = "onClick()">Click</button>

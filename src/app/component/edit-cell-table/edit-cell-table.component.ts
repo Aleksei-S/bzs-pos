@@ -8,25 +8,10 @@ export class ValueTablePipe implements PipeTransform {
 
   transform(value, args: string[]): any {
     // console.log(args);
-    if (value === 0) {
+    if (+value === 0) {
       return '-';
     }
-    // num.toString().replace(3,'three');
-
     value = value.toString().replace('.', ',');
-
-    // value = value.replace('.', ',');
-    // alert('12-34-56'.replace("-", ":")) // 12:34-56
-    //  if (value.indexOf('.') > 0) {
-    //   // value.toString();
-    //   // alert( '12-34-56'.replace( /-/g, ":" ) )  // 12:34:56
-
-    //   console.log(typeof(value));
-    //   let res = value.replace('.', ',');
-    //   console.log(res);
-    //   return res;
-    // //   return '-';
-    //  }
      return value;
   }
 
@@ -51,13 +36,23 @@ export class EditCellTableComponent implements OnInit {
   }
 
   changeVal(e) {
-    const value = e.target.value.toString().replace(',', '.');
+    let value = 0;
+    if (e.target.value === '' ) {
+      value = 0;
+    } else {
+      value = e.target.value.toString().replace(',', '.');
+    }
     this.updateValue.emit(value);
   }
+
   clickOn() {
     this.editing = true;
     setTimeout(() => {
-      this.editInput.nativeElement.value = this.value;
+      if (this.value === 0 ) {
+        this.editInput.nativeElement.value = '';
+      } else {
+        this.editInput.nativeElement.value = this.value;
+      }
       this.editInput.nativeElement.focus();
     }, 0);
   }
