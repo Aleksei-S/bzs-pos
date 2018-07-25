@@ -31,10 +31,11 @@
   </div> -->
   <button (click) = "onClick()">Click</button>
   <mat-tab-group  (selectedTabChange)="changeTabs($event)">
+      <mat-tab label="Third"> <app-calculation-energy-resources></app-calculation-energy-resources> </mat-tab>
       <mat-tab label="Календарный план"> <app-table-kalendar #kalendar></app-table-kalendar></mat-tab>
       <mat-tab label="строителей"> <app-calculation-workers></app-calculation-workers> </mat-tab>
       <mat-tab label="Third"> <app-calculation-storehouse></app-calculation-storehouse> </mat-tab>
-      <mat-tab label="Third"> <app-calculation-energy-resources></app-calculation-energy-resources> </mat-tab>
+     
 
 
     </mat-tab-group>
