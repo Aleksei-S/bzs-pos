@@ -1,3 +1,22 @@
-canvas {
+/* canvas {
+  background:navy;
+  background-color: red;
+
+}
+#canvas {
+  background:navy;
+  background:transparent;
+  background-color: red;
+}
+
+.canvas {
+  background:navy;
+  background:transparent;
+  background-color: red;
+} */
+
+
+#container {
   background-color: aqua;
+  width: 400px;
 }

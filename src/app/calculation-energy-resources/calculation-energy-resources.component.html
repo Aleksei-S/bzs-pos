@@ -3,15 +3,27 @@
 </p>
 
 
+<div id="container">
+<ko-stage #stage [config]="configStage" >
+  <ko-layer #layer >
+      <ko-line
+      [config]="land" >
+      </ko-line>
+  </ko-layer>
+  <ko-layer #dragLayer></ko-layer>
+</ko-stage>
+</div>
 
 
 
-<canvas #canvas (click)="onclick($event)"></canvas>
 
-<buttoN (click)="clear()" >claer</buttoN>
-<buttoN (click)="drawFF()" >drawFF</buttoN>
-<buttoN (click)="save()" >save</buttoN>
-<buttoN (click)="past()" >past</buttoN>
+
+<!-- <canvas #canvas (click)="onclick($event)" ></canvas> -->
+
+<buttoN (click)="clear()">claer</buttoN>
+<buttoN (click)="drawFF()">drawFF</buttoN>
+<buttoN (click)="save()">save</buttoN>
+<buttoN (click)="past()">past</buttoN>
 
 
 <!-- <table class="table table-bordered  table-hover  table-condensed typicalTab">

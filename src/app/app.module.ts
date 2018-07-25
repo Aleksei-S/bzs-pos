@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import {MatIconModule} from '@angular/material/icon';
+
 import {
   MatButtonModule,
   MatCheckboxModule,
@@ -29,6 +30,8 @@ import { CalculationStorehouseComponent } from './calculation-storehouse/calcula
 import { CalculationEnergyResourcesComponent } from './calculation-energy-resources/calculation-energy-resources.component';
 import { NumberTabPipe } from './pipe/number-tab.pipe';
 
+import { KonvaModule } from 'ng2-konva';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +51,7 @@ import { NumberTabPipe } from './pipe/number-tab.pipe';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    KonvaModule,
 
     MatTabsModule,
     MatGridListModule,
