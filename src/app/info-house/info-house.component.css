@@ -1,0 +1,11 @@
+/* #container {
+  background-color: aqua;
+  width: 400px;
+} */
+
+mat-card {
+  background-color: rgba(248, 248, 248, 0.747);
+  margin: 0;
+  padding: 0;
+  width: 400px;
+}

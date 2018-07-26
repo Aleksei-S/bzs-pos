@@ -6,35 +6,6 @@ import { KonvaComponent } from 'ng2-konva';
 declare const Konva: any;
 
 
-export class LAND {
-  constructor(x, y, h) {
-    this.x = x;
-    this.y = y;
-    this.h = h;
-    this.drawLand(x, y, h);
-  }
-  h: number;
-  y: number;
-  x: number;
-  drawLand(x, y, h) {
-    const arr = [];
-    arr.push(0);
-    arr.push(y / 2); // 1
-    arr.push(Math.ceil(x / 8));
-    arr.push(y / 2); // 2
-    arr.push(Math.ceil(x / 8 + h * 0.6));
-    arr.push(y / 2 + h * 20); // 3
-    // arr.push(Math.ceil(x / 8));
-    // arr.push(y / 2 + h * 20); // 4
-    // arr.push(Math.ceil(x / 8));
-    // arr.push(y / 2 + h * 20); // 5
-    // arr.push(Math.ceil(x / 8));
-    // arr.push(y / 2 + h * 20); // 6
-    return arr;
-  }
-
-}
-
 
 @Component({
   selector: 'app-info-house',
@@ -44,30 +15,43 @@ export class LAND {
 export class InfoHouseComponent implements OnInit {
 
   @ViewChild('stage') stage: KonvaComponent;
-  @ViewChild('line') line: KonvaComponent;
   @ViewChild('layer') layer: KonvaComponent;
-  @ViewChild('dragLayer') dragLayer: KonvaComponent;
-  @ViewChild('arrW') arrW: KonvaComponent;
-  
+  @ViewChild('qroup') qroupArrow: KonvaComponent;
+  @ViewChild('line') line: KonvaComponent;
+  // @ViewChild('arrow') arrow: KonvaComponent;
+  // @ViewChild('layer') layer: KonvaComponent;
+  // @ViewChild('dragLayer') dragLayer: KonvaComponent;
+  // @ViewChild('arrW') arrW: KonvaComponent;
+
   // @ViewChild('layer2') layer2: KonvaComponent;
   public width = 400;
   public height = 400;
-  public list: Array<any> = [];
-  public item: Observable<any>;
-  public land: Observable<any>;
-  public bal: any;
-  public arrow: Observable<any>;
-  public arrowLine: any;
-  public text: Observable<any>;
-  public textObj: any;
-  
+
+  public listArrow: Array<any> = [];
+  public arrowGr: Observable<any>;
+
+
+  public land: any;
+
+  // public list: Array<any> = [];
+  // public item: Observable<any>;
+  // public land: Observable<any>;
+  // public bal: any;
+  // public land2: Observable<any>;
+  // public bal2: any;
+  // public arrow: Observable<any>;
+  // public arrowLine: any;
+  // public text: Observable<any>;
+  // public textObj: any;
+
+
   public configStage: Observable<any> = of({
     container: 'container',
     width: this.width,
     height: this.height,
   });
 
-  constructor(public ng: NgZone) { }
+  constructor() { }
 
   ngOnInit() {
 
@@ -75,79 +59,33 @@ export class InfoHouseComponent implements OnInit {
   }
 
   initLand() {
-    // this.land = new BehaviorSubject({
-    //   points: [0, 200],
-    //   stroke: 'green',
-    //   strokeWidth: 5,
-    //   // lineCap: 'round',
-    //   lineJoin: 'round'
-    // });
+    // for (let n = 0; n < 2; n++) {
 
-    this.bal = {
-      points: this.drawLand(400, 400 , 2),
-      stroke: 'blue',
-      strokeWidth: 3,
-      lineJoin: 'round',
-      draggable: true,
-      // dash: [33, 10],
-    };
-
-    this.arrowLine = {
-      x: 250,
+    this.arrowGr = of({
+      x: 200,
       y: 200,
-      points: [0, 0, 100, 0, 100, 50, ],
-      pointerLength: 20,
-      pointerWidth : 20,
-      draggable: true,
+      draggable: true
+    });
 
-      fill: 'black',
-      stroke: 'black',
-      strokeWidth: 2
-    };
 
-    this.textObj = {
-      x: 250,
-      y: 15,
-      text: 'Simple Text',
-      fontSize: 30,
-      draggable: true,
-      fontFamily: 'Calibri',
-      fill: 'green'
-    };
 
-    this.land = of(this.bal);
-    this.arrow = of(this.arrowLine);
-    this.text = of(this.textObj);
+    // this.listArrow.push(
+    //   new DrawARROW(200, 200, 3)
+    // );
+
+    this.land = new DrawLAND(400, 400);
+
+
   }
 
-  drawLand(x, y, h) {
-    x = x - 50;
-    y = y - 50;
-    const arr = [];
-    arr.push(0);
-    arr.push(y / 2); // 1
-    arr.push(Math.ceil(x / 6));
-    arr.push(y / 2); // 2
-    arr.push(Math.ceil(x / 6 + h * 40 * 0.5));
-    arr.push(y / 2 + h * 40); // 3
-    arr.push(Math.ceil(x - (x / 6 + h * 40 * 0.5)));
-    arr.push(y / 2 + h * 40); // 4
-    arr.push(Math.ceil(x - x / 6));
-    arr.push(y / 2 ); // 5
-    arr.push(Math.ceil(x + 50));
-    arr.push(y / 2); // 6
-    return arr;
-  }
-
-
-  drawArrow() {
-
-  }
 
   clear() {
-    console.log(this.line);
-    console.log(this.line.getStage());
-    
+    // console.log(this.line);
+    // console.log(this.line.getStage());
+    //  this.line.getStage().move({
+    //   x : 50,
+    //   y : 50
+    // });
 
     // this.line.getStage().attrs.move(200, 400);
 
@@ -161,7 +99,7 @@ export class InfoHouseComponent implements OnInit {
     //  this.land = new BehaviorSubject(this.bal);
     // this.line.getStage()._strokeFunc();
 
-    
+
     // console.log(this.line.getStage().position());
     // this.line.getStage().position({
     //   x : 200,
@@ -174,11 +112,170 @@ export class InfoHouseComponent implements OnInit {
 
     // this.line.getStage().draw();
     // this.bal.setpos(200, 200);
-    console.log(this.line.getStage().x());
-    console.log(this.line.getStage().y());
+    // console.log(this.line.getStage().x());
+    // console.log(this.line.getStage().y());
     // this.bal.moveline(200, 0);
     this.stage.getStage().draw();
   }
 
+
+}
+
+
+
+
+
+export class DrawLAND {
+  lineLand: any;
+  demension: any;
+  waterLevel: any;
+  arrowList = [];
+
+  textDemension: any;
+  textWaterLevel: any;
+  coef = 35;
+  constructor(x = 400, y = 400, h = 2, waterLevel = 3) {
+    const landLevel = y * 0.4;
+    const downPit = landLevel + h * this.coef;
+    const waterLvl = landLevel + waterLevel * this.coef;
+    const pozitionDemension = x * 0.85;
+    this.lineLand = of({
+      points: [
+        0, landLevel,
+        x * 0.15, landLevel,
+        x * 0.15 + (h * 0.6 * this.coef), downPit,
+        x * 0.75 - (h * 0.6 * this.coef), downPit,
+        x * 0.75, landLevel,
+        x, landLevel
+      ],
+      stroke: 'black',
+      strokeWidth: 4,
+      lineJoin: 'round'
+    });
+
+    this.demension = of({
+      points: [
+        pozitionDemension, landLevel,
+        pozitionDemension - 5, landLevel - 5,
+        pozitionDemension + 5, landLevel + 5,
+        pozitionDemension, landLevel,
+        pozitionDemension, downPit,
+        pozitionDemension - 5, downPit - 5,
+        pozitionDemension + 5, downPit + 5,
+        pozitionDemension, downPit,
+        pozitionDemension  + 7, downPit,
+        pozitionDemension - 30, downPit,
+      ],
+      stroke: 'green',
+      strokeWidth: 1,
+      lineJoin: 'round'
+    });
+
+    this.textDemension = of({
+      x: pozitionDemension - 20,
+      y: downPit - 15,
+      text: h.toFixed(1) + 'м',
+      fontSize: 20,
+      rotation: 270,
+      draggable: true,
+      fontFamily: 'Calibri',
+      fill: 'green'
+    });
+
+
+    this.waterLevel = of({
+      points: [
+        0, waterLvl,
+        x, waterLvl
+      ],
+      stroke: 'blue',
+      strokeWidth: 2,
+      dash: [33, 15],
+      lineJoin: 'round'
+    });
+
+    // this.arrowList = new DrawARROW(1, 'FFFFFFFF');
+
+    this.arrowList.push(
+      new DrawARROW(x / 2 , downPit + 3, 0, 'FFFFFFFF'),
+      new DrawARROW(pozitionDemension - 25, landLevel, 1, 'FFFFFFFF'),
+      new DrawARROW(x / 8, waterLvl + 3, 0, 'FFFFFFFF'),
+    );
+
+  }
+
+}
+
+
+
+
+
+
+
+export class DrawARROW {
+  arrowGroup: any;
+  arrow: any;
+  arrowEnd: any;
+  text: any;
+
+  otm: string;
+  direction: number;
+  directionValuer = [0, 1, 2, 3];
+
+  constructor(moveX = 200, moveY = 200, direction = 0, otm = '0.000') {
+    this.direction = direction;
+    this.otm = otm;
+    this.arrow = of({
+      x: 0,
+      y: 0,
+      points: (direction === 1) ? [0, 0, 0, -23, 70, -23] : //top rigt  1
+        (direction === 2) ? [0, 0, 0, -23, -70, -23] : //top left  2
+          (direction === 3) ? [0, 0, 0, 23, -70, 23] : //botttom left 3
+            [0, 0, 0, 23, 70, 23], //botttom rigt
+      stroke: 'black',
+      strokeWidth: 1,
+      lineJoin: 'round'
+    });
+    this.arrowEnd = of({
+      x: 0,
+      y: 0,
+      points: (direction === 1 || direction === 2) ? [-10, -10, 0, 0, 10, -10] : //top
+        [-10, 10, 0, 0, 10, 10], //botttom
+      stroke: 'black',
+      strokeWidth: 4,
+      lineJoin: 'round'
+    });
+
+    const obj = {
+      x: 0,
+      y: 0
+    };
+
+    if (direction === 1) {
+      obj.x = 15; obj.y = -45; //top rigt  1
+    } else if (direction === 2) {
+      obj.x = -60; obj.y = -45; ////top left  2
+    } else if (direction === 3) {
+      obj.x = -60; obj.y = 0; //botttom left 3
+    } else {
+      obj.x = 15; obj.y = 0; //botttom rigt
+    }
+    this.text = of({
+      x: obj.x,
+      y: obj.y,
+      text: this.otm,
+      fontSize: 20,
+      draggable: true,
+      fontFamily: 'Calibri',
+      fill: 'green'
+    });
+
+
+    this.arrowGroup = of({
+      x: moveX,
+      y: moveY,
+      draggable: true
+    });
+  }
 
 }

@@ -2,36 +2,36 @@
   info-house works!
 </p>
 
-<mat-card>Simple card</mat-card>
+<mat-card>
+  <div id="container">
+    <ko-stage #stage [config]="configStage">
+      <ko-layer #layer>
+
+        <ko-group #qroup *ngFor="let arrow of listArrow" [config]="arrowGr">
+          <ko-line #line [config]="arrow.arrow"></ko-line>
+          <ko-line #line [config]="arrow.arrowEnd"></ko-line>
+          <ko-text #line [config]="arrow.text"></ko-text>
+        </ko-group>
+
+        <ko-group #qroup >
+            <ko-line #line [config]="land.lineLand"></ko-line>
+            <ko-line #line [config]="land.demension"></ko-line>
+            <ko-line #line [config]="land.waterLevel"></ko-line>
+            <ko-text #line [config]="land.textDemension"></ko-text>
+
+                   <ko-group #qroup *ngFor="let a of land.arrowList" [config]="a.arrowGroup">
+                    <ko-line #line [config]="a.arrow"></ko-line>
+                    <ko-line #line [config]="a.arrowEnd"></ko-line>
+                    <ko-text #line [config]="a.text"></ko-text>
+                  </ko-group>
+        </ko-group>
+
+      </ko-layer>
+    </ko-stage>
+  </div>
+</mat-card>
 <br>
 
-<div id="container">
-<ko-stage #stage [config]="configStage" >
-  <ko-layer #layer >
-      <ko-line #line
-      [config]="land" >
-	  </ko-line>
-
-      <ko-arrow #line
-      [config]="arrow" >
-	  </ko-arrow>
-
-	  <ko-text #line
-      [config]="text" >
-	  </ko-text>
-	  	  
-  </ko-layer>
-  <!-- <ko-layer #layer2 >
-	<ko-arrow #arrow
-	[config]="arrow" >
-	</ko-arrow>	  
-</ko-layer> -->
-
-
-
-  <ko-layer #dragLayer></ko-layer>
-</ko-stage>
-</div>
 
 
 
