@@ -16,6 +16,7 @@ import {
   MatSortModule,
   MatTableModule,
   MatTabsModule,
+  MatCardModule,
  } from '@angular/material';
 import { AppComponent } from './app.component';
 import { TableKalendarComponent } from './table-kalendar/table-kalendar.component';
@@ -31,6 +32,7 @@ import { CalculationEnergyResourcesComponent } from './calculation-energy-resour
 import { NumberTabPipe } from './pipe/number-tab.pipe';
 
 import { KonvaModule } from 'ng2-konva';
+import { InfoHouseComponent } from './info-house/info-house.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { KonvaModule } from 'ng2-konva';
     CalculationStorehouseComponent,
     CalculationEnergyResourcesComponent,
     NumberTabPipe,
+    InfoHouseComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import { KonvaModule } from 'ng2-konva';
     KonvaModule,
 
     MatTabsModule,
+    MatCardModule,
     MatGridListModule,
     MatIconModule,
     MatButtonModule,

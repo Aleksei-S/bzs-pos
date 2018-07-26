@@ -1,20 +1,6 @@
-import { Component, ViewChild, ElementRef, Input, OnInit, } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input, OnInit, NgZone } from '@angular/core';
 import { BehaviorSubject, Observable, fromEvent, of } from 'rxjs';
 import { combineLatest, switchMap, takeUntil, map, pairwise } from 'rxjs/operators';
-import { KonvaComponent } from 'ng2-konva';
-
-declare const Konva: any;
-
-
-export class BALL {
-  left = 200;
-  top = 200;
-  radius = 25;
-  color = 'red';
-  draw: any;
-  clear: any;
-}
-
 
 
 
@@ -26,62 +12,14 @@ export class BALL {
 export class CalculationEnergyResourcesComponent implements OnInit {
 
 
-  @ViewChild('stage') stage: KonvaComponent;
+  
 
-  @ViewChild('layer') layer: KonvaComponent;
-  @ViewChild('dragLayer') dragLayer: KonvaComponent;
-
-  public width = 400;
-  public height = 400;
-  public list: Array<any> = [];
-  public item: Observable<any>;
-  public land: BehaviorSubject<any>;
-  // public land: any;
-  public bal: any;
-
-
-  public configStage: Observable<any> = of({
-    container: 'container',
-    width: this.width,
-    height: this.height,
-  });
-
-  constructor() { }
+  constructor(public ng: NgZone) { }
 
   ngOnInit() {
 
-this.initLand();
-  }
-
-  initLand() {
-    // this.land = new BehaviorSubject({
-    //   points: [0, 200],
-    //   stroke: 'green',
-    //   strokeWidth: 5,
-    //   // lineCap: 'round',
-    //   lineJoin: 'round'
-    // });
-
-    this.bal = {
-      points: [5, 70, 140, 23, 250, 60, 300, 20],
-      stroke: 'green',
-      strokeWidth: 2,
-      lineJoin: 'round',
-      dash: [33, 10]
-    };
-    this.land = new BehaviorSubject(this.bal);
 
   }
-
-
-  clear() {
-    console.log(this);
-  //  this.bal.move({
-  //     x : 0,
-  //     y : 105
-  //   });
-  }
-
 
 }
 

@@ -1,0 +1,45 @@
+<p>
+  info-house works!
+</p>
+
+<mat-card>Simple card</mat-card>
+<br>
+
+<div id="container">
+<ko-stage #stage [config]="configStage" >
+  <ko-layer #layer >
+      <ko-line #line
+      [config]="land" >
+	  </ko-line>
+
+      <ko-arrow #line
+      [config]="arrow" >
+	  </ko-arrow>
+
+	  <ko-text #line
+      [config]="text" >
+	  </ko-text>
+	  	  
+  </ko-layer>
+  <!-- <ko-layer #layer2 >
+	<ko-arrow #arrow
+	[config]="arrow" >
+	</ko-arrow>	  
+</ko-layer> -->
+
+
+
+  <ko-layer #dragLayer></ko-layer>
+</ko-stage>
+</div>
+
+
+
+
+
+<!-- <canvas #canvas (click)="onclick($event)" ></canvas> -->
+
+<buttoN (click)="clear()">claer</buttoN>
+<buttoN (click)="drawFF()">drawFF</buttoN>
+<buttoN (click)="save()">save</buttoN>
+<buttoN (click)="past()">past</buttoN>
