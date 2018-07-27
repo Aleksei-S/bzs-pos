@@ -33,6 +33,7 @@ import { NumberTabPipe } from './pipe/number-tab.pipe';
 
 import { KonvaModule } from 'ng2-konva';
 import { InfoHouseComponent } from './info-house/info-house.component';
+import { EditCellStringComponent } from './component/edit-cell-string/edit-cell-string.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { InfoHouseComponent } from './info-house/info-house.component';
     CalculationEnergyResourcesComponent,
     NumberTabPipe,
     InfoHouseComponent,
+    EditCellStringComponent,
   ],
   imports: [
     BrowserModule,

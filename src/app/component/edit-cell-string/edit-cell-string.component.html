@@ -1,0 +1,11 @@
+  <div *ngIf="editing" (click)="clickOn()">
+    <mat-form-field class="example-full-width" >
+        <input type="text"  #editInput matInput  
+        (change)="changeVal($event)"
+        (keyup.enter)="onBlur()" 
+        (blur)="onBlur()" >
+    </mat-form-field>
+  </div>
+  <div *ngIf="!editing" (click)="clickOn()">
+      {{value | valueTable}}
+  </div>

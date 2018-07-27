@@ -59,19 +59,11 @@ export class InfoHouseComponent implements OnInit {
   }
 
   initLand() {
-    // for (let n = 0; n < 2; n++) {
-
-    this.arrowGr = of({
-      x: 200,
-      y: 200,
-      draggable: true
-    });
-
-
-
-    // this.listArrow.push(
-    //   new DrawARROW(200, 200, 3)
-    // );
+    // this.arrowGr = of({
+    //   x: 200,
+    //   y: 200,
+    //   draggable: true
+    // });
 
     this.land = new DrawLAND(400, 400);
 
@@ -80,41 +72,6 @@ export class InfoHouseComponent implements OnInit {
 
 
   clear() {
-    // console.log(this.line);
-    // console.log(this.line.getStage());
-    //  this.line.getStage().move({
-    //   x : 50,
-    //   y : 50
-    // });
-
-    // this.line.getStage().attrs.move(200, 400);
-
-    //  this.bal.move(200, 400);
-    // //  this.land.next(this.bal.move(200, 400));
-    // this.line.getStage().draw();
-    // this.bal.move({
-    //   x : 0,
-    //   y : 105
-    // });
-    //  this.land = new BehaviorSubject(this.bal);
-    // this.line.getStage()._strokeFunc();
-
-
-    // console.log(this.line.getStage().position());
-    // this.line.getStage().position({
-    //   x : 200,
-    //   y : 200
-    // });
-    // this.line.getStage().move({
-    //   x : 50,
-    //   y : 50
-    // });
-
-    // this.line.getStage().draw();
-    // this.bal.setpos(200, 200);
-    // console.log(this.line.getStage().x());
-    // console.log(this.line.getStage().y());
-    // this.bal.moveline(200, 0);
     this.stage.getStage().draw();
   }
 

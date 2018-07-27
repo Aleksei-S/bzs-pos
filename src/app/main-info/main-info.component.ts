@@ -30,7 +30,7 @@ export class MainInfoComponent implements OnInit {
 
   changeTabs($event) {
     console.log($event);
-    if ($event.index !== 0) {
+    if ($event.index === 3 || $event.index === 4) {
       this.kalendar.saveTable();
       console.log(this.kalendar.table);
     }

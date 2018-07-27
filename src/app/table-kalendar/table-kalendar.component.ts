@@ -105,10 +105,10 @@ export class TableKalendarComponent implements OnInit {
       } else if (e instanceof TotalRow) {
         total = e;
       } else {
-        result = result + (+e[value]);
+        result = parseFloat((result + (+e[value])).toFixed(2));
       }
     });
-    other[value] = total[value] - result;
+    other[value] = parseFloat((total[value] - result).toFixed(2));
   }
 
   calculateCellRow(row, month, event) {
@@ -125,7 +125,8 @@ export class TableKalendarComponent implements OnInit {
       if (e instanceof TotalRow) {
         total = e;
       } else {
-        result = result + (+e[month][event]);
+        result = parseFloat((result + (+e[month][event])).toFixed(2));
+
         // result =  parseFloat((result + (+e[month][event])).toFixed(2));
       }
     });
@@ -188,10 +189,10 @@ export class TableKalendarComponent implements OnInit {
         resultCMP = total[month]['CMP'];
         year = month.slice(-4);
       } else {
-        resultCMP = resultCMP + total[month]['CMP'];
+        resultCMP = parseFloat((resultCMP + total[month]['CMP']).toFixed(2));
       }
     });
-
+    // parseFloat((result + (+e[month][event])).toFixed(2));
     keys.push({ year: year, resultCMP: resultCMP });
     this.infoService.yearSumma$.next(keys);
   }

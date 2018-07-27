@@ -2,42 +2,70 @@
   info-house works!
 </p>
 
-<mat-card>
-  <div id="container">
-    <ko-stage #stage [config]="configStage">
-      <ko-layer #layer>
+    <!-- <mat-card> -->
+      <!-- <div id="container">
+        <ko-stage #stage [config]="configStage">
+          <ko-layer #layer>
 
-        <ko-group #qroup *ngFor="let arrow of listArrow" [config]="arrowGr">
-          <ko-line #line [config]="arrow.arrow"></ko-line>
-          <ko-line #line [config]="arrow.arrowEnd"></ko-line>
-          <ko-text #line [config]="arrow.text"></ko-text>
-        </ko-group>
+            <ko-group #qroup *ngFor="let arrow of listArrow" [config]="arrowGr">
+              <ko-line #line [config]="arrow.arrow"></ko-line>
+              <ko-line #line [config]="arrow.arrowEnd"></ko-line>
+              <ko-text #line [config]="arrow.text"></ko-text>
+            </ko-group>
 
-        <ko-group #qroup >
-            <ko-line #line [config]="land.lineLand"></ko-line>
-            <ko-line #line [config]="land.demension"></ko-line>
-            <ko-line #line [config]="land.waterLevel"></ko-line>
-            <ko-text #line [config]="land.textDemension"></ko-text>
+            <ko-group #qroup>
+              <ko-line #line [config]="land.lineLand"></ko-line>
+              <ko-line #line [config]="land.demension"></ko-line>
+              <ko-line #line [config]="land.waterLevel"></ko-line>
+              <ko-text #line [config]="land.textDemension"></ko-text>
 
-                   <ko-group #qroup *ngFor="let a of land.arrowList" [config]="a.arrowGroup">
-                    <ko-line #line [config]="a.arrow"></ko-line>
-                    <ko-line #line [config]="a.arrowEnd"></ko-line>
-                    <ko-text #line [config]="a.text"></ko-text>
-                  </ko-group>
-        </ko-group>
+              <ko-group #qroup *ngFor="let a of land.arrowList" [config]="a.arrowGroup">
+                <ko-line #line [config]="a.arrow"></ko-line>
+                <ko-line #line [config]="a.arrowEnd"></ko-line>
+                <ko-text #line [config]="a.text"></ko-text>
+              </ko-group>
+            </ko-group>
 
-      </ko-layer>
-    </ko-stage>
+          </ko-layer>
+        </ko-stage>
+      </div> -->
+    <!-- </mat-card> -->
+ 
+
+    <div class="container-fluid">
+    <div class="row">
+  
+      <div class="col-md-7">
+          <mat-card>
+            FFFFFFFF
+            <br><br>
+            ZZZZZZ
+            ZZZZZZZZ
+          </mat-card>
+        <h2>{{nameObj}}</h2>
+      </div>
+      <div class="col-md-3 offset-md-2">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Номер объекта" value="Sushi">
+        </mat-form-field>
+      </div>
+    </div>
   </div>
-</mat-card>
-<br>
 
 
 
 
 
 
-<!-- <canvas #canvas (click)="onclick($event)" ></canvas> -->
+
+
+
+
+
+
+
+
+
 
 <buttoN (click)="clear()">claer</buttoN>
 <buttoN (click)="drawFF()">drawFF</buttoN>

@@ -11,8 +11,10 @@ export class ValueTablePipe implements PipeTransform {
     if (+value === 0) {
       return '-';
     }
+    // parseFloat((result + (+e[month][event])).toFixed(2)
     value = value.toString().replace('.', ',');
-     return value;
+    
+    return value;
   }
 
 }
