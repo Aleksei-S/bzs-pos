@@ -39,7 +39,6 @@ export class CalculationStorehouseComponent implements OnInit {
   changeCoef(e) {
     this.infoService.coef$.next(e);
     this.coef = e;
-    console.log(e);
   }
 
   calculateYearSumma(arrObj) {
@@ -51,5 +50,5 @@ export class CalculationStorehouseComponent implements OnInit {
       }
     });
   }
-  
+
 }

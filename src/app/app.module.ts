@@ -17,6 +17,9 @@ import {
   MatTableModule,
   MatTabsModule,
   MatCardModule,
+  MatAutocompleteModule,
+  MatExpansionModule,
+
  } from '@angular/material';
 import { AppComponent } from './app.component';
 import { TableKalendarComponent } from './table-kalendar/table-kalendar.component';
@@ -58,6 +61,9 @@ import { EditCellStringComponent } from './component/edit-cell-string/edit-cell-
     BrowserAnimationsModule,
     KonvaModule,
 
+
+    MatExpansionModule,
+    MatAutocompleteModule,
     MatTabsModule,
     MatCardModule,
     MatGridListModule,

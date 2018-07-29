@@ -7,13 +7,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ValueTablePipe implements PipeTransform {
 
   transform(value, args: string[]): any {
-    // console.log(args);
+    // console.log(value);
     if (+value === 0) {
       return '-';
     }
-    // parseFloat((result + (+e[month][event])).toFixed(2)
+    console.log(Math.ceil(value) - value > 0);
+    if (Math.ceil(+value) - (+value) === 0) {
+      value = value.toString() + ',00';
+    }
     value = value.toString().replace('.', ',');
-    
     return value;
   }
 

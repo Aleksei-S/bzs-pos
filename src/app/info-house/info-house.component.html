@@ -2,72 +2,218 @@
   info-house works!
 </p>
 
-    <!-- <mat-card> -->
-      <!-- <div id="container">
-        <ko-stage #stage [config]="configStage">
-          <ko-layer #layer>
 
-            <ko-group #qroup *ngFor="let arrow of listArrow" [config]="arrowGr">
-              <ko-line #line [config]="arrow.arrow"></ko-line>
-              <ko-line #line [config]="arrow.arrowEnd"></ko-line>
-              <ko-text #line [config]="arrow.text"></ko-text>
-            </ko-group>
 
-            <ko-group #qroup>
-              <ko-line #line [config]="land.lineLand"></ko-line>
-              <ko-line #line [config]="land.demension"></ko-line>
-              <ko-line #line [config]="land.waterLevel"></ko-line>
-              <ko-text #line [config]="land.textDemension"></ko-text>
+<div class="container-fluid">
+  <div class="row">
+    <div class="flex-container">
 
-              <ko-group #qroup *ngFor="let a of land.arrowList" [config]="a.arrowGroup">
-                <ko-line #line [config]="a.arrow"></ko-line>
-                <ko-line #line [config]="a.arrowEnd"></ko-line>
-                <ko-text #line [config]="a.text"></ko-text>
+      <mat-card>
+        <div id="container">
+          <ko-stage #stage [config]="configStage">
+            <ko-layer #layer>
+
+              <ko-group #qroup *ngFor="let arrow of listArrow" [config]="arrowGr">
+                <ko-line #line [config]="arrow.arrow"></ko-line>
+                <ko-line #line [config]="arrow.arrowEnd"></ko-line>
+                <ko-text #line [config]="arrow.text"></ko-text>
               </ko-group>
-            </ko-group>
 
-          </ko-layer>
-        </ko-stage>
-      </div> -->
-    <!-- </mat-card> -->
- 
+              <ko-group #qroup>
+                <ko-line #line [config]="land.lineLand"></ko-line>
+                <ko-line #line [config]="land.demension"></ko-line>
+                <ko-line #line [config]="land.waterLevel"></ko-line>
+                <ko-text #line [config]="land.textDemension"></ko-text>
 
-    <div class="container-fluid">
-    <div class="row">
-  
-      <div class="col-md-7">
-          <mat-card>
-            FFFFFFFF
-            <br><br>
-            ZZZZZZ
-            ZZZZZZZZ
-          </mat-card>
-        <h2>{{nameObj}}</h2>
+                <ko-group #qroup *ngFor="let a of land.arrowList" [config]="a.arrowGroup">
+                  <ko-line #line [config]="a.arrow"></ko-line>
+                  <ko-line #line [config]="a.arrowEnd"></ko-line>
+                  <ko-text #line [config]="a.text"></ko-text>
+                </ko-group>
+              </ko-group>
+
+            </ko-layer>
+          </ko-stage>
+        </div>
+        <buttoN (click)="clear()">claer</buttoN>
+        <buttoN (click)="drawFF()">drawFF</buttoN>
+        <buttoN (click)="save()">save</buttoN>
+        <buttoN (click)="past()">past</buttoN>
+
+
+      </mat-card>
+
+
+
+    </div>
+
+    <div class="col">
+
+      <div class="row ">
+        <div class="col-md-6 ">
+
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Отм 0.000" [(ngModel)]="levelZero" (change)="changeLevel_0($event.target.value)">
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Отм поверхности земли" (change)="changeLevel_ground($event.target.value)">
+          </mat-form-field>
+        </div>
       </div>
-      <div class="col-md-3 offset-md-2">
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="Номер объекта" value="Sushi">
-        </mat-form-field>
+
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="РУГВ" value="">
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Уровень грунтовых вод" (change)="changeLevel_water($event.target.value)">
+          </mat-form-field>
+        </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input type="text" placeholder="Тип фундаментов" aria-label="Number" matInput [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of options" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Отм низа фундамента" (change)="changeLevel_pit($event.target.value)">
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12">
+
+          <mat-accordion multi="true">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Общие данные
+                </mat-panel-title>
+                <mat-panel-description>
+                  Type your name and age
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Этажность" value="">
+                  </mat-form-field>
+                </div>
+
+                <div class="col">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Количество секций" value="">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Ощая площадь квартир" value="">
+                  </mat-form-field>
+                </div>
+
+                <div class="col">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Количество секций" value="">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Площадь чердака" value="">
+                  </mat-form-field>
+                </div>
+
+                <div class="col">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Площадь техподполье" value="">
+                  </mat-form-field>
+                </div>
+              </div>
+
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Используемые механизмы
+                </mat-panel-title>
+                <mat-panel-description>
+                  Currently I am {{panelOpenState ? 'open' : 'closed'}}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Котлован" value="">
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Перемещение до " value="">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Подземная часть" value="">
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Количество" value="">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Надземная часть" value="">
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Количество" value="">
+                  </mat-form-field>
+                </div>
+              </div>
+
+            </mat-expansion-panel>
+          </mat-accordion>
+
+        </div>
+      </div>
+
+
+
+
+
+
     </div>
   </div>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-<buttoN (click)="clear()">claer</buttoN>
-<buttoN (click)="drawFF()">drawFF</buttoN>
-<buttoN (click)="save()">save</buttoN>
-<buttoN (click)="past()">past</buttoN>
+</div>

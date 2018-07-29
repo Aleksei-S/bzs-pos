@@ -189,7 +189,7 @@ export class TableKalendarComponent implements OnInit {
         resultCMP = total[month]['CMP'];
         year = month.slice(-4);
       } else {
-        resultCMP = parseFloat((resultCMP + total[month]['CMP']).toFixed(2));
+        resultCMP = parseFloat((resultCMP + (+total[month]['CMP'])).toFixed(2));
       }
     });
     // parseFloat((result + (+e[month][event])).toFixed(2));

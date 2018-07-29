@@ -1,7 +1,9 @@
 import { Component, ViewChild, ElementRef, Input, OnInit, NgZone } from '@angular/core';
-import { BehaviorSubject, Observable, fromEvent, of } from 'rxjs';
-import { combineLatest, switchMap, takeUntil, map, pairwise } from 'rxjs/operators';
+import { FormControl, FormGroup, FormBuilder, Validators, ValidationErrors } from '@angular/forms';
+import { BehaviorSubject, Observable, fromEvent, of, forkJoin, combineLatest, Subscription, merge, Subject } from 'rxjs';
+import {  switchMap, takeUntil, map, pairwise, concatAll, take, zip, mergeMap  } from 'rxjs/operators';
 import { KonvaComponent } from 'ng2-konva';
+import { DrawLAND, DrawARROW } from './object/draw';
 
 declare const Konva: any;
 
@@ -18,32 +20,19 @@ export class InfoHouseComponent implements OnInit {
   @ViewChild('layer') layer: KonvaComponent;
   @ViewChild('qroup') qroupArrow: KonvaComponent;
   @ViewChild('line') line: KonvaComponent;
-  // @ViewChild('arrow') arrow: KonvaComponent;
-  // @ViewChild('layer') layer: KonvaComponent;
-  // @ViewChild('dragLayer') dragLayer: KonvaComponent;
-  // @ViewChild('arrW') arrW: KonvaComponent;
 
-  // @ViewChild('layer2') layer2: KonvaComponent;
   public width = 400;
   public height = 400;
 
   public listArrow: Array<any> = [];
-  public arrowGr: Observable<any>;
-
-
   public land: any;
+  options: string[] = ['Ленточный фундамент', 'Монолитная плита', 'Сваи'];
 
-  // public list: Array<any> = [];
-  // public item: Observable<any>;
-  // public land: Observable<any>;
-  // public bal: any;
-  // public land2: Observable<any>;
-  // public bal2: any;
-  // public arrow: Observable<any>;
-  // public arrowLine: any;
-  // public text: Observable<any>;
-  // public textObj: any;
-
+  public newsForm: FormGroup;
+  public arrowGr:  Observable<any> = of({
+    x: 200,
+    y: 200,
+  });
 
   public configStage: Observable<any> = of({
     container: 'container',
@@ -51,188 +40,120 @@ export class InfoHouseComponent implements OnInit {
     height: this.height,
   });
 
-  constructor() { }
+  constructor( private fb: FormBuilder) { }
 
   ngOnInit() {
 
     this.initLand();
+
+    this.arrowGr = of({
+      x: 200,
+      y: 200,
+      draggable: true
+    });
+
+    this.listArrow.push(new DrawARROW(150, 10, 0, 'zzzz'));
+
+
+
+
+
+
+    this.initForm();
+
+
   }
 
   initLand() {
-    // this.arrowGr = of({
-    //   x: 200,
-    //   y: 200,
-    //   draggable: true
-    // });
-
-    this.land = new DrawLAND(400, 400);
-
-
+    this.land = new DrawLAND(this.width, this.height);
   }
 
 
   clear() {
-    this.stage.getStage().draw();
+    const aa =  '134,45-124,12';
+    const arr = [];
+    console.log(aa.match(/\d*[.,]?\d+/gm));
+
+    this.listArrow.push(new DrawARROW(150, 15, 0, 'DDDDDDDDDDDDDD'));
+
+    // new DrawARROW(x / 2 , downPit + 3, 0, 'FFFFFFFF'),
+    // this.line.getStage().clearCache();
+    // this.land.drawWater();
+    this.qroupArrow.getStage().draw();
+    // this.layer.getStage().draw();
+    // this.line.getStage().draw();
+    // console.log(this.land);
+    // console.log(this.stage);
+    // console.log(this.stage.getStage());
+  
+    // this.land = new DrawLAND(this.width, this.height);
+    // const shape = ngComponent.getStage();
+    // const layer = ng.layer.getStage();
+    // const stage = ng.stage.getStage();
+    // shape.moveTo(layer);
+    // stage.draw();
   }
 
 
-}
-
-
-
-
-
-export class DrawLAND {
-  lineLand: any;
-  demension: any;
-  waterLevel: any;
-  arrowList = [];
-
-  textDemension: any;
-  textWaterLevel: any;
-  coef = 35;
-  constructor(x = 400, y = 400, h = 2, waterLevel = 3) {
-    const landLevel = y * 0.4;
-    const downPit = landLevel + h * this.coef;
-    const waterLvl = landLevel + waterLevel * this.coef;
-    const pozitionDemension = x * 0.85;
-    this.lineLand = of({
-      points: [
-        0, landLevel,
-        x * 0.15, landLevel,
-        x * 0.15 + (h * 0.6 * this.coef), downPit,
-        x * 0.75 - (h * 0.6 * this.coef), downPit,
-        x * 0.75, landLevel,
-        x, landLevel
-      ],
-      stroke: 'black',
-      strokeWidth: 4,
-      lineJoin: 'round'
+  private initForm() {
+    this.newsForm = this.fb.group({
+      level_0: ['', []],
+      level_ground: ['', []],
+      level_pit: ['', []],
+      level_water: ['', []],
+      typeFoundation: ['', []],
+      // dateTimeEvent: [this.dateNowISO, [Validators.required, this.dataValidator]],
+      numberStoreys: ['', []],
+      numberSection: ['', []],
+      S_apartments: ['', []],
+      S_loft: ['', []],
+      S_basement: ['', []],
     });
-
-    this.demension = of({
-      points: [
-        pozitionDemension, landLevel,
-        pozitionDemension - 5, landLevel - 5,
-        pozitionDemension + 5, landLevel + 5,
-        pozitionDemension, landLevel,
-        pozitionDemension, downPit,
-        pozitionDemension - 5, downPit - 5,
-        pozitionDemension + 5, downPit + 5,
-        pozitionDemension, downPit,
-        pozitionDemension  + 7, downPit,
-        pozitionDemension - 30, downPit,
-      ],
-      stroke: 'green',
-      strokeWidth: 1,
-      lineJoin: 'round'
-    });
-
-    this.textDemension = of({
-      x: pozitionDemension - 20,
-      y: downPit - 15,
-      text: h.toFixed(1) + 'м',
-      fontSize: 20,
-      rotation: 270,
-      draggable: true,
-      fontFamily: 'Calibri',
-      fill: 'green'
-    });
-
-
-    this.waterLevel = of({
-      points: [
-        0, waterLvl,
-        x, waterLvl
-      ],
-      stroke: 'blue',
-      strokeWidth: 2,
-      dash: [33, 15],
-      lineJoin: 'round'
-    });
-
-    // this.arrowList = new DrawARROW(1, 'FFFFFFFF');
-
-    this.arrowList.push(
-      new DrawARROW(x / 2 , downPit + 3, 0, 'FFFFFFFF'),
-      new DrawARROW(pozitionDemension - 25, landLevel, 1, 'FFFFFFFF'),
-      new DrawARROW(x / 8, waterLvl + 3, 0, 'FFFFFFFF'),
-    );
-
   }
 
-}
+  changeLevel_0(e) {
+    console.log(e);
+  }
 
+  changeLevel_ground(e) {
+    console.log(e);
+  }
 
-
-
-
-
-
-export class DrawARROW {
-  arrowGroup: any;
-  arrow: any;
-  arrowEnd: any;
-  text: any;
-
-  otm: string;
-  direction: number;
-  directionValuer = [0, 1, 2, 3];
-
-  constructor(moveX = 200, moveY = 200, direction = 0, otm = '0.000') {
-    this.direction = direction;
-    this.otm = otm;
-    this.arrow = of({
-      x: 0,
-      y: 0,
-      points: (direction === 1) ? [0, 0, 0, -23, 70, -23] : //top rigt  1
-        (direction === 2) ? [0, 0, 0, -23, -70, -23] : //top left  2
-          (direction === 3) ? [0, 0, 0, 23, -70, 23] : //botttom left 3
-            [0, 0, 0, 23, 70, 23], //botttom rigt
-      stroke: 'black',
-      strokeWidth: 1,
-      lineJoin: 'round'
-    });
-    this.arrowEnd = of({
-      x: 0,
-      y: 0,
-      points: (direction === 1 || direction === 2) ? [-10, -10, 0, 0, 10, -10] : //top
-        [-10, 10, 0, 0, 10, 10], //botttom
-      stroke: 'black',
-      strokeWidth: 4,
-      lineJoin: 'round'
-    });
-
-    const obj = {
-      x: 0,
-      y: 0
-    };
-
-    if (direction === 1) {
-      obj.x = 15; obj.y = -45; //top rigt  1
-    } else if (direction === 2) {
-      obj.x = -60; obj.y = -45; ////top left  2
-    } else if (direction === 3) {
-      obj.x = -60; obj.y = 0; //botttom left 3
-    } else {
-      obj.x = 15; obj.y = 0; //botttom rigt
+  changeLevel_pit(e) {
+    console.log(e);
+  }
+  changeLevel_water(e) {
+    const arrWarter = e.match(/\d*[.,]?\d+/gm);
+    if (!arrWarter) {
+      return;
     }
-    this.text = of({
-      x: obj.x,
-      y: obj.y,
-      text: this.otm,
-      fontSize: 20,
-      draggable: true,
-      fontFamily: 'Calibri',
-      fill: 'green'
+    let maxLevel_water = 0;
+    const arr = arrWarter.map(element => {
+      element = element.replace(',', '.');
+      element = parseFloat(element);
+      if (maxLevel_water < element) {
+        maxLevel_water = element;
+      }
+       return element;
     });
 
-
-    this.arrowGroup = of({
-      x: moveX,
-      y: moveY,
-      draggable: true
-    });
+    this.land.drawArrow();
+    this.qroupArrow.getStage().draw();
+    console.log(this.land);
+    this.land = new DrawLAND(this.width, this.height, 2, 3);
+    this.stage.getStage().draw();
+    console.log(this.stage);
+    // <ko-group #qroup *ngFor="let arrow of listArrow" [config]="arrowGr">
+    // <ko-stage #stage [config]="configStage">
   }
 
+
+
+
+
+
+
+
+
 }
+

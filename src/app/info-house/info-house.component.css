@@ -1,11 +1,20 @@
-/* #container {
-  background-color: aqua;
-  width: 400px;
-} */
+.example-full-width {
+  width: 100%;
+  /* background-color: antiquewhite; */
 
+}
 mat-card {
-  background-color: rgba(192, 192, 192, 0.747);
+  justify-content:center;
+  background-color:rgb(240, 240, 240);
   margin: 0;
+  margin-left: 15px;
   padding: 0;
   width: 400px;
+  /* height: 400px; */
+}
+
+.flex-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

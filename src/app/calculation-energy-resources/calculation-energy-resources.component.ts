@@ -1,8 +1,9 @@
 import { Component, ViewChild, ElementRef, Input, OnInit, NgZone } from '@angular/core';
-import { BehaviorSubject, Observable, fromEvent, of } from 'rxjs';
-import { combineLatest, switchMap, takeUntil, map, pairwise } from 'rxjs/operators';
+import { BehaviorSubject, Observable, fromEvent, of, forkJoin, combineLatest, Subscription, merge, Subject } from 'rxjs';
+import {  switchMap, takeUntil, map, pairwise, concatAll, take, zip, mergeMap  } from 'rxjs/operators';
+import { KonvaComponent } from 'ng2-konva';
 
-
+declare const Konva: any;
 
 @Component({
   selector: 'app-calculation-energy-resources',
@@ -13,15 +14,142 @@ export class CalculationEnergyResourcesComponent implements OnInit {
 
 
   
+  @ViewChild('stage') stage: KonvaComponent;
+  @ViewChild('layer') layer: KonvaComponent;
+  // @ViewChild('dragLayer') dragLayer: KonvaComponent;
+ 
+  public width = 800;
+  public height = 200;
+  public list: Array<any> = [];
+ 
+  public configStage: Observable<any> = of({
+    width: this.width,
+    height: this.height
+  });
+ 
+  
 
-  constructor(public ng: NgZone) { }
+
+  constructor(public ng: NgZone ) { }
 
   ngOnInit() {
-
-
+   const ng = this;
+    for (let n = 0; n < 2; n++) {
+      const scale = Math.random();
+      this.list.push(
+        new BehaviorSubject({
+          x: Math.random() * 800,
+          y: Math.random() * 200,
+          rotation: Math.random() * 180,
+          numPoints: 5,
+          innerRadius: 30,
+          outerRadius: 50,
+          fill: '#89b717',
+          opacity: 0.8,
+          draggable: true,
+          scaleX: scale,
+          scaleY: scale,
+          shadowColor: 'black',
+          shadowBlur: 10,
+          shadowOffsetX: 5,
+          shadowOffsetY: 5,
+          shadowOpacity: 0.6,
+          startScale: scale
+        })
+      );
+    }
   }
 
+
+    private drawFF() {
+      const layer = this.layer.getStage();
+      const stage = this.stage.getStage();
+      const scale = Math.random();
+        console.log(this.layer.getConfig());
+        console.log(this.stage.getConfig());
+
+  
+
+
+
+    const ff =  new Konva.Star({
+      x: Math.random() * 800,
+      y: Math.random() * 200,
+      rotation: Math.random() * 180,
+      numPoints: 5,
+      innerRadius: 30,
+      outerRadius: 50,
+      fill: '#89b717',
+      opacity: 0.8,
+      draggable: true,
+      scaleX: scale,
+      scaleY: scale,
+      shadowColor: 'black',
+      shadowBlur: 10,
+      shadowOffsetX: 5,
+      shadowOffsetY: 5,
+      shadowOpacity: 0.6,
+      startScale: scale
+    });
+
+
+    console.log(ff);
+
+        console.log(this.stage.getStage());
+        console.log(this.stage);
+
+
+
+
+
+
+
+
+
+
+
+
+    // const ff =  new Konva.Star({
+    //   x: Math.random() * 800,
+    //   y: Math.random() * 200,
+    //   rotation: Math.random() * 180,
+    //   numPoints: 5,
+    //   innerRadius: 30,
+    //   outerRadius: 50,
+    //   fill: '#89b717',
+    //   opacity: 0.8,
+    //   draggable: true,
+    //   scaleX: scale,
+    //   scaleY: scale,
+    //   shadowColor: 'black',
+    //   shadowBlur: 10,
+    //   shadowOffsetX: 5,
+    //   shadowOffsetY: 5,
+    //   shadowOpacity: 0.6,
+    //   startScale: scale
+    // });
+
+    //   layer.add(ff);
+    //   stage.draw();
+
+    //   ff.on('dblclick', function (evt, a) {
+    //     console.log(a);
+    //     console.log(evt);
+    //    });
+
+  
+      // stage.Collection = new Collection();
+
+
+
+    }
+
+
+
+
 }
+
+
 
   // private cc() {
   //   console.log('this.cx');
