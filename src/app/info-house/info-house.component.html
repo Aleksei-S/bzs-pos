@@ -19,7 +19,15 @@
                 <ko-text #line [config]="arrow.text"></ko-text>
               </ko-group>
 
-              <ko-group #qroup>
+
+              <!-- <ko-group #qroup *ngFor="let arrow of listArrow" [config]="arrowGr">
+                <ko-line #line [config]="arrow.arrow"></ko-line>
+                <ko-line #line [config]="arrow.arrowEnd"></ko-line>
+                <ko-text #line [config]="arrow.text"></ko-text>
+              </ko-group> -->
+
+
+              <!-- <ko-group #qroup>
                 <ko-line #line [config]="land.lineLand"></ko-line>
                 <ko-line #line [config]="land.demension"></ko-line>
                 <ko-line #line [config]="land.waterLevel"></ko-line>
@@ -30,15 +38,15 @@
                   <ko-line #line [config]="a.arrowEnd"></ko-line>
                   <ko-text #line [config]="a.text"></ko-text>
                 </ko-group>
-              </ko-group>
+              </ko-group> -->
 
             </ko-layer>
           </ko-stage>
         </div>
         <buttoN (click)="clear()">claer</buttoN>
-        <buttoN (click)="drawFF()">drawFF</buttoN>
-        <buttoN (click)="save()">save</buttoN>
-        <buttoN (click)="past()">past</buttoN>
+        <buttoN (click)="delFF()">drawFF</buttoN>
+        <!-- <buttoN (click)="save()">save</buttoN>
+        <buttoN (click)="past()">past</buttoN> -->
 
 
       </mat-card>

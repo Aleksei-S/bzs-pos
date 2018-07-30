@@ -13,7 +13,6 @@ declare const Konva: any;
 export class CalculationEnergyResourcesComponent implements OnInit {
 
 
-  
   @ViewChild('stage') stage: KonvaComponent;
   @ViewChild('layer') layer: KonvaComponent;
   // @ViewChild('dragLayer') dragLayer: KonvaComponent;
@@ -72,6 +71,8 @@ export class CalculationEnergyResourcesComponent implements OnInit {
 
 
 
+
+
     const ff =  new Konva.Star({
       x: Math.random() * 800,
       y: Math.random() * 200,
@@ -92,50 +93,13 @@ export class CalculationEnergyResourcesComponent implements OnInit {
       startScale: scale
     });
 
+      layer.add(ff);
+      stage.draw();
 
-    console.log(ff);
-
-        console.log(this.stage.getStage());
-        console.log(this.stage);
-
-
-
-
-
-
-
-
-
-
-
-
-    // const ff =  new Konva.Star({
-    //   x: Math.random() * 800,
-    //   y: Math.random() * 200,
-    //   rotation: Math.random() * 180,
-    //   numPoints: 5,
-    //   innerRadius: 30,
-    //   outerRadius: 50,
-    //   fill: '#89b717',
-    //   opacity: 0.8,
-    //   draggable: true,
-    //   scaleX: scale,
-    //   scaleY: scale,
-    //   shadowColor: 'black',
-    //   shadowBlur: 10,
-    //   shadowOffsetX: 5,
-    //   shadowOffsetY: 5,
-    //   shadowOpacity: 0.6,
-    //   startScale: scale
-    // });
-
-    //   layer.add(ff);
-    //   stage.draw();
-
-    //   ff.on('dblclick', function (evt, a) {
-    //     console.log(a);
-    //     console.log(evt);
-    //    });
+      ff.on('dblclick', function (evt, a) {
+        console.log(a);
+        console.log(evt);
+       });
 
   
       // stage.Collection = new Collection();

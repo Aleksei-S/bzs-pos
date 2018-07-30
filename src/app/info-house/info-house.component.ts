@@ -1,9 +1,9 @@
 import { Component, ViewChild, ElementRef, Input, OnInit, NgZone } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, ValidationErrors } from '@angular/forms';
 import { BehaviorSubject, Observable, fromEvent, of, forkJoin, combineLatest, Subscription, merge, Subject } from 'rxjs';
-import {  switchMap, takeUntil, map, pairwise, concatAll, take, zip, mergeMap  } from 'rxjs/operators';
+import { switchMap, takeUntil, map, pairwise, concatAll, take, zip, mergeMap } from 'rxjs/operators';
 import { KonvaComponent } from 'ng2-konva';
-import { DrawLAND, DrawARROW } from './object/draw';
+import { DrawLAND, DrawARROW, DrawARROWo } from './object/draw';
 
 declare const Konva: any;
 
@@ -29,9 +29,10 @@ export class InfoHouseComponent implements OnInit {
   options: string[] = ['Ленточный фундамент', 'Монолитная плита', 'Сваи'];
 
   public newsForm: FormGroup;
-  public arrowGr:  Observable<any> = of({
+  public arrowGr: Observable<any> = of({
     x: 200,
     y: 200,
+    draggable: true,
   });
 
   public configStage: Observable<any> = of({
@@ -40,59 +41,81 @@ export class InfoHouseComponent implements OnInit {
     height: this.height,
   });
 
-  constructor( private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
 
-    this.initLand();
-
-    this.arrowGr = of({
-      x: 200,
-      y: 200,
-      draggable: true
-    });
-
-    this.listArrow.push(new DrawARROW(150, 10, 0, 'zzzz'));
-
-
-
-
-
-
-    this.initForm();
-
+   this.listArrow.push(new DrawARROW(150, 10, 0, 'zzzz'));
 
   }
 
-  initLand() {
-    this.land = new DrawLAND(this.width, this.height);
-  }
+
 
 
   clear() {
-    const aa =  '134,45-124,12';
-    const arr = [];
-    console.log(aa.match(/\d*[.,]?\d+/gm));
+
 
     this.listArrow.push(new DrawARROW(150, 15, 0, 'DDDDDDDDDDDDDD'));
 
-    // new DrawARROW(x / 2 , downPit + 3, 0, 'FFFFFFFF'),
-    // this.line.getStage().clearCache();
-    // this.land.drawWater();
-    this.qroupArrow.getStage().draw();
-    // this.layer.getStage().draw();
-    // this.line.getStage().draw();
-    // console.log(this.land);
-    // console.log(this.stage);
-    // console.log(this.stage.getStage());
-  
-    // this.land = new DrawLAND(this.width, this.height);
-    // const shape = ngComponent.getStage();
-    // const layer = ng.layer.getStage();
-    // const stage = ng.stage.getStage();
-    // shape.moveTo(layer);
-    // stage.draw();
+    const layer = this.layer.getStage();
+    const stage = this.stage.getStage();
+    const scale = Math.random();
+      // console.log(this.layer.getConfig());
+      // console.log(this.stage.getConfig());
+  // const ff =  new Konva.Star({
+  //   x: Math.random() * 800,
+  //   y: Math.random() * 200,
+  //   rotation: Math.random() * 180,
+  //   numPoints: 5,
+  //   innerRadius: 30,
+  //   outerRadius: 50,
+  //   fill: '#89b717',
+  //   opacity: 0.8,
+  //   draggable: true,
+  //   scaleX: scale,
+  //   scaleY: scale,
+  //   shadowColor: 'black',
+  //   shadowBlur: 10,
+  //   shadowOffsetX: 5,
+  //   shadowOffsetY: 5,
+  //   shadowOpacity: 0.6,
+  //   startScale: scale
+  // });
+
+
+  // const zz =  new Konva.group(new DrawARROWo(150, 15, 0, 'EEEEEEEEEEE'));
+
+  const group = new Konva.Group({
+    x: 120,
+    y: 40,
+    draggable: true,
+  });
+
+  group.on('dblclick', function (evt, a) {
+    console.log(a);
+    console.log(evt);
+
+   });
+
+
+group.add(new Konva.Line(new DrawARROWo(150, 15, 0, 'EEEEEEEEEEE').arrow));
+group.add(new Konva.Line(new DrawARROWo(150, 15, 0, 'EEEEEEEEEEE').arrowEnd));
+// group.add(new DrawARROWo(150, 15, 0, 'EEEEEEEEEEE').arrowEnd);
+// group.add(new DrawARROWo(150, 15, 0, 'EEEEEEEEEEE').text);
+    layer.add(group);
+    stage.draw();
+    console.log(this.line);
+
+group.destroy();
+stage.draw();
   }
+
+
+  delFF() {
+    // console.log(a);
+    // console.log(evt);
+  }
+
 
 
   private initForm() {
@@ -134,13 +157,13 @@ export class InfoHouseComponent implements OnInit {
       if (maxLevel_water < element) {
         maxLevel_water = element;
       }
-       return element;
+      return element;
     });
 
     this.land.drawArrow();
     this.qroupArrow.getStage().draw();
     console.log(this.land);
-    this.land = new DrawLAND(this.width, this.height, 2, 3);
+    // this.land = new DrawLAND(this.width, this.height, 2, 3);
     this.stage.getStage().draw();
     console.log(this.stage);
     // <ko-group #qroup *ngFor="let arrow of listArrow" [config]="arrowGr">
