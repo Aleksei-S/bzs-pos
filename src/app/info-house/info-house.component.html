@@ -11,15 +11,12 @@
       <mat-card>
         <div id="container">
           <ko-stage #stage [config]="configStage">
-            <ko-layer #layer>
-
-              <!-- <ko-group #qroup *ngFor="let arrow of listArrow" [config]="arrowGr">
-                <ko-line #line [config]="arrow.arrow"></ko-line>
-                <ko-line #line [config]="arrow.arrowEnd"></ko-line>
-                <ko-text #line [config]="arrow.text"></ko-text>
-              </ko-group> -->
-
+            <!-- <ko-layer #layer>
+            </ko-layer> -->
+            <ko-layer #layerLand>
             </ko-layer>
+            <ko-layer #layerWater>
+            </ko-layer>        
           </ko-stage>
         </div>
         <buttoN (click)="add()">add</buttoN>

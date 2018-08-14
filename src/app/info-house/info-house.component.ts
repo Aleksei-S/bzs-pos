@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, Input, OnInit, NgZone } from '@angula
 import { FormControl, FormGroup, FormBuilder, Validators, ValidationErrors } from '@angular/forms';
 import { BehaviorSubject, Observable, fromEvent, of, forkJoin, combineLatest, Subscription, merge, Subject } from 'rxjs';
 import { switchMap, takeUntil, map, pairwise, concatAll, take, zip, mergeMap } from 'rxjs/operators';
+import { BasicInfoService } from '../service/basic-info.service';
 import { KonvaComponent } from 'ng2-konva';
 import { DrawLAND, DrawARROW, DrawARROWo } from './object/draw';
 
@@ -17,17 +18,19 @@ declare const Konva: any;
 export class InfoHouseComponent implements OnInit {
 
   @ViewChild('stage') stage: KonvaComponent;
-  @ViewChild('layer') layer: KonvaComponent;
+  @ViewChild('layerLand') layerLand: KonvaComponent;
+  @ViewChild('layerWater') layerWater: KonvaComponent;
+  @ViewChild('layer') freeDraw: KonvaComponent;
   // @ViewChild('qroup') qroupArrow: KonvaComponent;
   // @ViewChild('line') line: KonvaComponent;
 
   public width = 400;
   public height = 400;
+  private coef = 35;
 
 
-  public land: any;
+
   options: string[] = ['Ленточный фундамент', 'Монолитная плита', 'Сваи'];
-
   public newsForm: FormGroup;
 
 
@@ -38,48 +41,49 @@ export class InfoHouseComponent implements OnInit {
     height: this.height,
   });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private basicInfoService: BasicInfoService) { }
 
-  ngOnInit() {
-
-
-  }
+  ngOnInit() { }
 
 
   add() {
-    const layer = this.layer.getStage();
+    const layer = this.layerLand.getStage();
     const stage = this.stage.getStage();
-    this.land =  new Konva.Star({
-      x: 0.5 * 800,
-      y: 0.5 * 200,
-      rotation: Math.random() * 180,
-      numPoints: 5,
-      innerRadius: 30,
-      outerRadius: 50,
-      fill: '#89b717',
-      opacity: 0.8,
-      draggable: true,
-      scaleX: 0.5,
-      scaleY: 0.5,
-      shadowColor: 'black',
-      shadowBlur: 10,
-      shadowOffsetX: 5,
-      shadowOffsetY: 5,
-      shadowOpacity: 0.6,
-      startScale: 1
-    });
-    layer.add(this.land);
+    const land = this.basicInfoService.drawLand(this.width, this.height, this.coef, 2);
+    layer.add(new Konva.Line(land));
+    // stage.draw();
+
+    const layer2 = this.layerWater.getStage();
+    const waterLine = this.basicInfoService.drawWater(this.width, this.height, this.coef, 4);
+    layer2.add(new Konva.Line(waterLine));
     stage.draw();
-    console.log('draw ');
+
+
+    // drawMark(x, y, coef = 35, direction = 1, otm = '+0.000')
+    const group = new Konva.Group({
+      x: 200,
+      y: 200,
+      draggable: true
+    });
+    const mark = this.basicInfoService.drawMark(1, '+0.000')
+    group.add(new Konva.Line(mark.arrow), new Konva.Line(mark.arrowEnd), new Konva.Text(mark.text));
+    layer2.add(group);
+    layer2.draw();
+    // stage.draw();
   }
 
 
   delFF() {
-    const layer = this.layer.getStage();
+
+    const layer = this.layerWater.getStage();
     const stage = this.stage.getStage();
-    // layer.remove(this.land);
-    this.land.remove();
+    // stage.draw();
+    // // layer.remove(this.land);
+    // this.land.LAND.remove();
+    // stage.draw();
+    layer.children.destroy();
     stage.draw();
+
   }
 
 
@@ -102,6 +106,7 @@ export class InfoHouseComponent implements OnInit {
 
   changeLevel_0(e) {
     console.log('changeLevel_0 ' + e);
+
   }
 
   changeLevel_ground(e) {

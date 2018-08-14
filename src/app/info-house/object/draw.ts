@@ -5,17 +5,17 @@ export class DrawLAND {
   x: number;
   y: number;
   h: number;
-  coef: any;
+  coef = 35;
   landLevel: any;
   downPit: any;
+  LAND: any;
   constructor(x, y, h) {
     this.x = x;
     this.y = y;
     this.landLevel = y * 0.4;
     this.h = h;
-    this.landLevel = y * 0.4;
     this.downPit = this.landLevel + h * this.coef;
-    const redLine = new Konva.Line({
+    this.LAND = new Konva.Line({
       points: [
         0, this.landLevel,
         x * 0.15, this.landLevel,
@@ -24,8 +24,16 @@ export class DrawLAND {
         x * 0.75, this.landLevel,
         x, this.landLevel
       ],
+      stroke: 'black',
+      strokeWidth: 4,
+      lineJoin: 'round'
     });
   }
+
+
+
+
+
 
   //   this.lineLand = of({
   //     points: [
@@ -217,18 +225,6 @@ export class DrawARROW {
 //     this.arrowList.push(new DrawARROW(this.x / 2 , dd + 3, 0, 'GGG'));
 //   }
 
-//   drawWater() {
-//     this.waterLevel = of({
-//       points: [
-//         0, this.waterLvl,
-//         this.x, this.waterLvl
-//       ],
-//       stroke: 'blue',
-//       strokeWidth: 2,
-//       dash: [33, 15],
-//       lineJoin: 'round'
-//     });
-//   }
 
 //   // constructor(x, y, h = 0, waterLevel = 0) {
 //   //   this.x = x;

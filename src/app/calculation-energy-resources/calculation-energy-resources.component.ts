@@ -95,13 +95,17 @@ export class CalculationEnergyResourcesComponent implements OnInit {
 
       layer.add(ff);
       stage.draw();
-
+      console.log(stage);
+      console.log(layer);
+      
       ff.on('dblclick', function (evt, a) {
         console.log(a);
         console.log(evt);
        });
 
   
+
+
       // stage.Collection = new Collection();
 
 
