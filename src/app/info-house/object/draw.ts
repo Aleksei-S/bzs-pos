@@ -1,24 +1,56 @@
 import { BehaviorSubject, Observable, of } from 'rxjs';
-
+declare const Konva: any;
 
 export class DrawLAND {
   x: number;
   y: number;
   h: number;
-  lineLand: any;
-  demension: any;
-  waterLevel: any;
-
-  constructor(x, y) {
+  coef: any;
+  landLevel: any;
+  downPit: any;
+  constructor(x, y, h) {
     this.x = x;
     this.y = y;
+    this.landLevel = y * 0.4;
+    this.h = h;
+    this.landLevel = y * 0.4;
+    this.downPit = this.landLevel + h * this.coef;
+    const redLine = new Konva.Line({
+      points: [
+        0, this.landLevel,
+        x * 0.15, this.landLevel,
+        x * 0.15 + (h * 0.6 * this.coef), this.downPit,
+        x * 0.75 - (h * 0.6 * this.coef), this.downPit,
+        x * 0.75, this.landLevel,
+        x, this.landLevel
+      ],
+    });
   }
-  // textDemension: any;
-  // textWaterLevel: any;
-  // coef = 35;
-  // landLevel = this.y * 0.4;
-  // downPit = this.landLevel + this.h * this.coef;
-  // waterLvl: any;
+
+  //   this.lineLand = of({
+  //     points: [
+  //       0, this.landLevel,
+  //       x * 0.15, this.landLevel,
+  //       x * 0.15 + (h * 0.6 * this.coef), this.downPit,
+  //       x * 0.75 - (h * 0.6 * this.coef), this.downPit,
+  //       x * 0.75, this.landLevel,
+  //       x, this.landLevel
+  //     ],
+  //     stroke: 'black',
+  //     strokeWidth: 4,
+  //     lineJoin: 'round'
+  //   });
+  // var redLine = new Konva.Line({
+  //   points: [5, 70, 140, 23, 250, 60, 300, 20],
+  //   stroke: 'red',
+  //   strokeWidth: 15,
+  //   lineCap: 'round',
+  //   lineJoin: 'round',
+  //   tension : 1
+  // });
+
+
+
 }
 
 
