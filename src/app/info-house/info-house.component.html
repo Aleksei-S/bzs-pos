@@ -11,8 +11,8 @@
       <mat-card>
         <div id="container">
           <ko-stage #stage [config]="configStage">
-            <!-- <ko-layer #layer>
-            </ko-layer> -->
+            <ko-layer #layerfreeDraw>
+            </ko-layer>
             <ko-layer #layerLand>
             </ko-layer>
             <ko-layer #layerWater>
@@ -21,7 +21,7 @@
         </div>
         <buttoN (click)="add()">add</buttoN>
         <buttoN (click)="delFF()">delFF</buttoN>
-
+        <buttoN (click)="back()">back</buttoN>
       </mat-card>
 
 
