@@ -104,5 +104,15 @@ export class BasicInfoService {
     };
   }
 
+  drawLevel_0() {
+    return {
+      y: -8,
+      width: 120,
+      height: 40,
+      stroke: 'red',
+      strokeWidth: 2,
+    };
+  }
+
 
 }
