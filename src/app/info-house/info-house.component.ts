@@ -74,29 +74,26 @@ export class InfoHouseComponent implements OnInit, AfterViewInit {
     });
 
     stage.on('mousedown', (e) => {
-      console.log(e);
-      // if (e.target.nodeType !== 'Stage') { return; }
+
+      if (document.getElementById('canvaTextarea')) { return; }
       if (e.target.className === 'Text') { return; }
-        isPaint = true;
-        line = new Konva.Line({
-          points: [stage.getPointerPosition().x, stage.getPointerPosition().y],
-          stroke: 'black',
-          strokeStyle: '#df4b26',
-          lineJoin: 'round',
-          lineWidth: 5,
-          strokeWidth: 3,
-          lineCap: 'round',
-        });
-        layer.add(line);
-    });
-      stage.on('mousemove', (e) => {
-        if (!isPaint) { return; }
-          line.points(line.points().concat([stage.getPointerPosition().x, stage.getPointerPosition().y]));
-          layer.draw();
+      isPaint = true;
+      line = new Konva.Line({
+        points: [stage.getPointerPosition().x, stage.getPointerPosition().y],
+        stroke: 'black',
+        strokeStyle: '#df4b26',
+        lineJoin: 'round',
+        lineWidth: 5,
+        strokeWidth: 3,
+        lineCap: 'round',
       });
-
-
-
+      layer.add(line);
+    });
+    stage.on('mousemove', (e) => {
+      if (!isPaint) { return; }
+      line.points(line.points().concat([stage.getPointerPosition().x, stage.getPointerPosition().y]));
+      layer.draw();
+    });
   }
 
 
@@ -110,47 +107,48 @@ export class InfoHouseComponent implements OnInit, AfterViewInit {
 
 
 
-  add() {
-    const layer = this.layerLevel.getStage();
-    layer.destroyChildren();
-    const group = new Konva.Group({
-      x: this.width * 0.35,
-      y: this.height * 0.1
-    });
-    const rect = this.basicInfoService.drawLevel_0();
-    const mark = this.basicInfoService.drawMark(4, '+0.000');
-    console.log(mark);
-    group.add(new Konva.Rect(rect), new Konva.Text(mark.text));
-    layer.add(group);
-
+  addText() {
+    const layer = this.layerfreeDraw.getStage();
+    const stage = this.stage.getStage();
+    const drawText = this.basicInfoService.drawText(0, 0, 'same text');
+    const textKonva = new Konva.Text(drawText);
+    layer.add(textKonva);
     layer.draw();
 
+    textKonva.on('dblclick', (e) => {
+      const textPosition = e.target.getAbsolutePosition();
 
 
-    // stage.draw();
-    // const layer = this.layerLand.getStage();
-    // const stage = this.stage.getStage();
-    // const land = this.basicInfoService.drawLand(this.width, this.height, this.coef, 2);
-    // layer.add(new Konva.Line(land));
-    // // stage.draw();
+      const textarea = document.createElement('textarea');
+      textarea.setAttribute('id', 'canvaTextarea');
+      document.body.appendChild(textarea);
+      const stageBox = stage.getContainer().getBoundingClientRect();
+      const areaPosition = {
+        x: textPosition.x + stageBox.left,
+        y: textPosition.y + stageBox.top
+      };
+      textarea.value = textKonva.text();
+      textarea.style.position = 'absolute';
+      textarea.style.top = areaPosition.y + 'px';
+      textarea.style.left = areaPosition.x + 'px';
+      textarea.style.zIndex = '1000000';
+      // textarea.style.width = textNode.width();
+      textarea.focus();
 
-    // const layer2 = this.layerWater.getStage();
-    // const waterLine = this.basicInfoService.drawWater(this.width, this.height, this.coef, 4);
-    // layer2.add(new Konva.Line(waterLine));
-    // stage.draw();
+      textarea.addEventListener('keydown', (keydownEvent) => {
+        if (keydownEvent.keyCode === 13) {
+          textarea.blur();
+        }
+      });
 
+      textarea.addEventListener('blur', (blurEvent: any) => {
+        textKonva.text(blurEvent.target.value);
+        layer.draw();
+        document.body.removeChild(textarea);
+      });
 
-    // // drawMark(x, y, coef = 35, direction = 1, otm = '+0.000')
-    // const group = new Konva.Group({
-    //   x: 200,
-    //   y: 200,
-    //   draggable: true
-    // });
-    // const mark = this.basicInfoService.drawMark(1, '+0.000')
-    // group.add(new Konva.Line(mark.arrow), new Konva.Line(mark.arrowEnd), new Konva.Text(mark.text));
-    // layer2.add(group);
-    // layer2.draw();
-    // stage.draw();
+    });
+
   }
 
 
@@ -221,7 +219,7 @@ export class InfoHouseComponent implements OnInit, AfterViewInit {
 
   changeLevel_pit(e) {
     const level_pitArr = e.match(/\d*[.,]?\d+/gm);
-    if (!level_pitArr) {  }
+    if (!level_pitArr) { }
     this.level_pit_middle = this.takeMiddlFromArray(level_pitArr);
     this.checkDraw();
   }
@@ -249,10 +247,9 @@ export class InfoHouseComponent implements OnInit, AfterViewInit {
         y: this.height * 0.1
       });
       const text = '+' + this.level_0.toFixed(3).replace('.', ',');
-
       const rect = this.basicInfoService.drawLevel_0();
-      const mark = this.basicInfoService.drawMark(4, text);
-      group.add(new Konva.Rect(rect), new Konva.Text(mark.text));
+      const drawText = this.basicInfoService.drawText(22, 0, text);
+      group.add(new Konva.Rect(rect), new Konva.Text(drawText));
       layer.add(group);
       layer.draw();
     }
@@ -260,21 +257,21 @@ export class InfoHouseComponent implements OnInit, AfterViewInit {
       return;
     } else
 
-    if (this.maxLevel_water) {
-      const layer = this.layerWater.getStage();
-      layer.destroyChildren();
-      const h = this.level_ground_middle - this.maxLevel_water;
-      const waterLine = this.basicInfoService.drawWater(this.width, this.height, this.coef, h);
-      layer.add(new Konva.Line(waterLine));
-      const group = new Konva.Group({
-        x: this.width * 0.2,
-        y: this.height * 0.4 + h * this.coef,
-      });
-      const mark = this.basicInfoService.drawMark(2, this.maxLevel_water.toFixed(3));
-      group.add(new Konva.Line(mark.arrow), new Konva.Line(mark.arrowEnd), new Konva.Text(mark.text));
-      layer.add(group);
-      layer.draw();
-    }
+      if (this.maxLevel_water) {
+        const layer = this.layerWater.getStage();
+        layer.destroyChildren();
+        const h = this.level_ground_middle - this.maxLevel_water;
+        const waterLine = this.basicInfoService.drawWater(this.width, this.height, this.coef, h);
+        layer.add(new Konva.Line(waterLine));
+        const group = new Konva.Group({
+          x: this.width * 0.2,
+          y: this.height * 0.4 + h * this.coef,
+        });
+        const mark = this.basicInfoService.drawMark(2, this.maxLevel_water.toFixed(3));
+        group.add(new Konva.Line(mark.arrow), new Konva.Line(mark.arrowEnd), new Konva.Text(mark.text));
+        layer.add(group);
+        layer.draw();
+      }
 
     if (this.level_pit_middle && this.level_0) {
 
@@ -282,43 +279,40 @@ export class InfoHouseComponent implements OnInit, AfterViewInit {
       layer.destroyChildren();
       const h = this.level_ground_middle - (this.level_0 - this.level_pit_middle);
       const land = this.basicInfoService.drawLand(this.width, this.height, this.coef, h);
-      console.log(h);
-      layer.add(new Konva.Line(land));
-      {
 
-        const group2 = new Konva.Group({
-          x: this.width * 0.8,
-          y: this.height * 0.4,
-        });
-        const mark2 = this.basicInfoService.drawMark(1, this.level_ground_middle.toFixed(3));
-        group2.add(new Konva.Line(mark2.arrow), new Konva.Line(mark2.arrowEnd), new Konva.Text(mark2.text));
-        layer.add(group2);
-        layer.draw();
-      }
-      const group = new Konva.Group({
+      layer.add(new Konva.Line(land));
+
+      const groupArrowLand = new Konva.Group({
         x: this.width * 0.8,
+        y: this.height * 0.4,
+      });
+      const mark2 = this.basicInfoService.drawMark(1, this.level_ground_middle.toFixed(3));
+      groupArrowLand.add(new Konva.Line(mark2.arrow), new Konva.Line(mark2.arrowEnd), new Konva.Text(mark2.text));
+      layer.add(groupArrowLand);
+
+      const groupArrowPit = new Konva.Group({
+        x: this.width * 0.7,
         y: this.height * 0.4 + h * this.coef,
-        // draggable: true
       });
       const mark = this.basicInfoService.drawMark(4, (this.level_0 - this.level_pit_middle).toFixed(3));
-      group.add(new Konva.Line(mark.arrow), new Konva.Line(mark.arrowEnd), new Konva.Text(mark.text));
-      layer.add(group);
-      layer.draw();
+      groupArrowPit.add(new Konva.Line(mark.arrow), new Konva.Line(mark.arrowEnd), new Konva.Text(mark.text));
+      layer.add(groupArrowPit);
 
-      // const layer2 = this.layerWater.getStage();
-      // const waterLine = this.basicInfoService.drawWater(this.width, this.height, this.coef, 4);
-      // layer2.add(new Konva.Line(waterLine));
-      // stage.draw();
+      const groupDemension = new Konva.Group({});
+      const demension = this.basicInfoService.drawDemensionLand(this.width, this.height, this.coef, h);
+      groupDemension.add(new Konva.Line(demension.demension), new Konva.Text(demension.text));
+      layer.add(groupDemension);
+      layer.draw();
 
     }
 
-  // private level_0 = 0;
-  // private level_ground_middle = 0;
-  // private level_pit_middle = 0;
-  // private level_water_middle = 0;
+    // private level_0 = 0;
+    // private level_ground_middle = 0;
+    // private level_pit_middle = 0;
+    // private level_water_middle = 0;
   }
 
-  drawLandCheck() {}
+  drawLandCheck() { }
 
 
 

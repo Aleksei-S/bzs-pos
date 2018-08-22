@@ -35,6 +35,71 @@ export class BasicInfoService {
     };
   }
 
+  drawDemensionLand(x, y, coef = 35, h = 0) {
+    const landLevel = y * 0.4;
+    const pozitionDemension = x * 0.85;
+    const poinLand = y * 0.4;
+    const poinPit = y * 0.4;
+    const downPit = poinLand + h * coef;
+    return {
+      demension: {
+        points: [
+          pozitionDemension, landLevel,
+          pozitionDemension - 5, landLevel - 5,
+          pozitionDemension + 5, landLevel + 5,
+          pozitionDemension, landLevel,
+          pozitionDemension, downPit,
+          pozitionDemension - 5, downPit - 5,
+          pozitionDemension + 5, downPit + 5,
+          pozitionDemension, downPit,
+          pozitionDemension  + 7, downPit,
+          pozitionDemension - 30, downPit,
+        ],
+        stroke: 'green',
+        strokeWidth: 1,
+        lineJoin: 'round'
+      },
+      text: {
+        x: pozitionDemension  + 5,
+        y: landLevel + (h * coef / 2) - 10,
+        text: h.toFixed(1).replace('.', ',') + 'м',
+        fontSize: 20,
+        draggable: true,
+        fontFamily: 'Calibri',
+        fill: 'green'
+      }
+    };
+
+
+  }
+  // this.demension = of({
+  //   points: [
+  //     pozitionDemension, landLevel,
+  //     pozitionDemension - 5, landLevel - 5,
+  //     pozitionDemension + 5, landLevel + 5,
+  //     pozitionDemension, landLevel,
+  //     pozitionDemension, downPit,
+  //     pozitionDemension - 5, downPit - 5,
+  //     pozitionDemension + 5, downPit + 5,
+  //     pozitionDemension, downPit,
+  //     pozitionDemension  + 7, downPit,
+  //     pozitionDemension - 30, downPit,
+  //   ],
+  //   stroke: 'green',
+  //   strokeWidth: 1,
+  //   lineJoin: 'round'
+  // });
+  //  this.textDemension = of({
+  //   x: pozitionDemension - 20,
+  //   y: downPit - 15,
+  //   text: h.toFixed(1) + 'м',
+  //   fontSize: 20,
+  //   rotation: 270,
+  //   draggable: true,
+  //   fontFamily: 'Calibri',
+  //   fill: 'green'
+  // });
+
   drawWater(x, y, coef = 35, h = 0) {
     const landLevel = y * 0.4;
     const waterLvl = landLevel + h * coef;
@@ -79,23 +144,16 @@ export class BasicInfoService {
     };
 
     if (direction === 1) {
-      obj.x = 15; obj.y = -45; //top rigt  1
+      obj.x = 10; obj.y = -45; //top rigt  1
     } else if (direction === 2) {
       obj.x = -60; obj.y = -45; ////top left  2
     } else if (direction === 3) {
       obj.x = -60; obj.y = 0; //botttom left 3
     } else {
-      obj.x = 15; obj.y = 0; //botttom rigt
+      obj.x = 10; obj.y = 25; //top rigt  1
+      // obj.x = 15; obj.y = 0; //botttom rigt
     }
-    const text = {
-        x: obj.x,
-        y: obj.y,
-        text: otm,
-        fontSize: 20,
-        draggable: true,
-        fontFamily: 'Calibri',
-        fill: 'green'
-      };
+    const text = this.drawText(obj.x, obj.y, otm);
 
     return {
       'arrow': arrow,
@@ -109,10 +167,24 @@ export class BasicInfoService {
       y: -8,
       width: 120,
       height: 40,
-      stroke: 'red',
+      stroke: 'blue',
       strokeWidth: 2,
     };
   }
 
 
+
+
+  drawText(x, y, text) {
+    return {
+      x: x,
+      y: y,
+      text: text,
+      fontSize: 20,
+      draggable: true,
+      fontFamily: 'Calibri',
+      fill: 'green',
+      name: 'myText'
+    };
+  }
 }
