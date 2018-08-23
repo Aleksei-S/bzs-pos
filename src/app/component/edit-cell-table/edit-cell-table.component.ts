@@ -11,10 +11,6 @@ export class ValueTablePipe implements PipeTransform {
     if (+value === 0) {
       return '-';
     }
-    console.log(Math.ceil(value) - value > 0);
-    if (Math.ceil(+value) - (+value) === 0) {
-      value = value.toString() + ',00';
-    }
     value = value.toString().replace('.', ',');
     return value;
   }

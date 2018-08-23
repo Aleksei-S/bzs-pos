@@ -169,32 +169,31 @@ export class TableKalendarComponent implements OnInit {
 
 
   saveTable() {
-    // console.log('ngOnDestroy');
-    if (this.arrMonth.length === 0) {
-      return;
-    }
-    let total: TotalRow;
-    this.table.forEach((e) => {
-      if (e instanceof TotalRow) {
-        total = e;
-      }
-    });
+    // // console.log('ngOnDestroy');
+    // if (this.arrMonth.length === 0) {
+    //   return;
+    // }
+    // let total: TotalRow;
+    // this.table.forEach((e) => {
+    //   if (e instanceof TotalRow) {
+    //     total = e;
+    //   }
+    // });
 
-    const keys = [];
-    let year = this.arrMonth[0].slice(-4);
-    let resultCMP = 0;
-    this.arrMonth.forEach((month) => {
-      if (year !== month.slice(-4)) {
-        keys.push({ year: year, resultCMP: resultCMP });
-        resultCMP = total[month]['CMP'];
-        year = month.slice(-4);
-      } else {
-        resultCMP = parseFloat((resultCMP + (+total[month]['CMP'])).toFixed(2));
-      }
-    });
-    // parseFloat((result + (+e[month][event])).toFixed(2));
-    keys.push({ year: year, resultCMP: resultCMP });
-    this.infoService.yearSumma$.next(keys);
+    // const keys = [];
+    // let year = this.arrMonth[0].slice(-4);
+    // let resultCMP = 0;
+    // this.arrMonth.forEach((month) => {
+    //   if (year !== month.slice(-4)) {
+    //     keys.push({ year: year, resultCMP: resultCMP });
+    //     resultCMP = total[month]['CMP'];
+    //     year = month.slice(-4);
+    //   } else {
+    //     resultCMP = parseFloat((resultCMP + (+total[month]['CMP'])).toFixed(2));
+    //   }
+    // });
+    // keys.push({ year: year, resultCMP: resultCMP });
+    // this.infoService.yearSumma$.next(keys);
   }
 
 

@@ -23,7 +23,6 @@ export class InfoHouseComponent implements OnInit, AfterViewInit {
   @ViewChild('layerfreeDraw') layerfreeDraw: KonvaComponent;
   @ViewChild('layerLevel') layerLevel: KonvaComponent;
 
-
   public width = 400;
   public height = 400;
   private coef = 35;
@@ -32,14 +31,6 @@ export class InfoHouseComponent implements OnInit, AfterViewInit {
   private level_ground_middle = 0;
   private level_pit_middle = 0;
   private maxLevel_water = 0;
-
-
-
-
-
-
-
-
 
 
   options: string[] = ['Ленточный фундамент', 'Монолитная плита', 'Сваи'];
@@ -74,7 +65,6 @@ export class InfoHouseComponent implements OnInit, AfterViewInit {
     });
 
     stage.on('mousedown', (e) => {
-
       if (document.getElementById('canvaTextarea')) { return; }
       if (e.target.className === 'Text') { return; }
       isPaint = true;
@@ -89,14 +79,13 @@ export class InfoHouseComponent implements OnInit, AfterViewInit {
       });
       layer.add(line);
     });
+
     stage.on('mousemove', (e) => {
       if (!isPaint) { return; }
       line.points(line.points().concat([stage.getPointerPosition().x, stage.getPointerPosition().y]));
       layer.draw();
     });
   }
-
-
 
 
 
@@ -152,31 +141,18 @@ export class InfoHouseComponent implements OnInit, AfterViewInit {
   }
 
 
-  delFF() {
-
-    const layer = this.layerWater.getStage();
+  clearAll() {
     const stage = this.stage.getStage();
-    const layer2 = this.layerfreeDraw.getStage();
-    // stage.draw();
-    // // layer.remove(this.land);
-    // this.land.LAND.remove();
-    // stage.draw();
-    layer2.destroyChildren();
+    const layer = this.layerfreeDraw.getStage();
+    layer.destroyChildren();
     stage.draw();
-
   }
 
-  back() {
+  stepBack() {
     const layer = this.layerfreeDraw.getStage();
     const stage = this.stage.getStage();
-
-    // stage.draw();
-    // // layer.remove(this.land);
-    // this.land.LAND.remove();
-    // stage.draw();
     layer.children.pop();
     stage.draw();
-
   }
 
   private initForm() {
@@ -291,7 +267,7 @@ export class InfoHouseComponent implements OnInit, AfterViewInit {
       layer.add(groupArrowLand);
 
       const groupArrowPit = new Konva.Group({
-        x: this.width * 0.7,
+        x: this.width * 0.8,
         y: this.height * 0.4 + h * this.coef,
       });
       const mark = this.basicInfoService.drawMark(4, (this.level_0 - this.level_pit_middle).toFixed(3));
