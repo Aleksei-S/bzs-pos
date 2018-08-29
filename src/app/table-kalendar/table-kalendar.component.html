@@ -107,10 +107,13 @@
   </div>
 </div> -->
 
-<mat-grid-list cols="3" rowHeight="50px">
+<mat-grid-list cols="4" rowHeight="50px">
     <mat-grid-tile>
         <button mat-raised-button (click)="addRow()">AddRow</button>
     </mat-grid-tile>
+    <mat-grid-tile>
+      <button mat-raised-button (click)="addTotalRow()">addTotalRow</button>
+  </mat-grid-tile>
     <mat-grid-tile>
         <button mat-raised-button (click)="calculate()">Calculate</button>
     </mat-grid-tile>

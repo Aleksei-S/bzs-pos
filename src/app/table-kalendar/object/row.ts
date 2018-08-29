@@ -49,7 +49,7 @@ export class MainRow extends ROW {
 
 export class TotalRow extends ROW {
   name = 'Всего';
-  calculate = true;
+  calculate = false;
 }
 
 export class OtherRow extends ROW {

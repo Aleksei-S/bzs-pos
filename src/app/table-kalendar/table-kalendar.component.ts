@@ -82,6 +82,12 @@ export class TableKalendarComponent implements OnInit {
     this.table.push(r);
   }
 
+  addTotalRow() {
+    const r = new TotalRow();
+    r.createMonth(this.arrMonth);
+    this.table.push(r);
+  }
+
   calculate() {
     this.table.forEach((row) => {
       if (row.calculate === true) {
@@ -96,19 +102,53 @@ export class TableKalendarComponent implements OnInit {
 
   calculateOtherRow(value, ) {
     let other: OtherRow;
-    let total: TotalRow;
+    const total: TotalRow[] = [];
     let result: number;
+    let ind = this.table.length;
     result = 0;
-    this.table.forEach((e) => {
+
+    this.table.forEach((e, index) => {
       if (e instanceof OtherRow) {
         other = e;
       } else if (e instanceof TotalRow) {
-        total = e;
+        total.push(e);
+        // total = e;
+        // ind = index;
       } else {
         result = parseFloat((result + (+e[value])).toFixed(2));
       }
     });
-    other[value] = parseFloat((total[value] - result).toFixed(2));
+    // other[value] = parseFloat((total[value] - result).toFixed(2));
+
+
+
+
+    // for (let i = ind; i < this.table.length; i++) {
+    //   const element = this.table[i];
+    //   if (element instanceof TotalRow) {
+    //     const totalNext = element;
+    //   } else {
+    //     const resultTotal = parseFloat((result + (+element[value])).toFixed(2));
+    //   }
+    //   other[value] = parseFloat((total[value] - result).toFixed(2));
+    // }
+
+
+    // this.table.forEach((e, index) => {
+    //   ind = index;
+    //   if (e instanceof OtherRow) {
+    //     other = e;
+    //   } else if (e instanceof TotalRow) {
+    //     total = e;
+    //   } else {
+    //     result = parseFloat((result + (+e[value])).toFixed(2));
+    //   }
+    // });
+    // other[value] = parseFloat((total[value] - result).toFixed(2));
+
+
+
+
   }
 
   calculateCellRow(row, month, event) {
@@ -117,6 +157,24 @@ export class TableKalendarComponent implements OnInit {
       this.calculateTotalRow(month, event);
     }
   }
+
+  // calculateTotalRow(month, event) {
+  //   let total: TotalRow;
+  //   let result = 0;
+  //   this.table.forEach((e) => {
+  //     if (e instanceof TotalRow) {
+  //       total = e;
+  //     } else {
+  //       result = parseFloat((result + (+e[month][event])).toFixed(2));
+
+  //       // result =  parseFloat((result + (+e[month][event])).toFixed(2));
+  //     }
+  //   });
+  //   total[month][event] = result;
+  //   total.calculateTotal();
+  // }
+
+
 
   calculateTotalRow(month, event) {
     let total: TotalRow;
@@ -133,6 +191,8 @@ export class TableKalendarComponent implements OnInit {
     total[month][event] = result;
     total.calculateTotal();
   }
+
+
 
 
   clickOn() {
@@ -159,9 +219,7 @@ export class TableKalendarComponent implements OnInit {
   }
 
   dropBasket(ev) {
-    if (this.table[this.dragIndex] instanceof TotalRow ||
-      this.table[this.dragIndex] instanceof OtherRow ||
-      this.table[this.dragIndex] instanceof MainRow) { return; }
+    if (this.table[this.dragIndex] instanceof MainRow) { return; }
     this.table.splice(this.dragIndex, 1); // удалить 1 строку
   }
 
