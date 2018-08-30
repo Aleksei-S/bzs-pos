@@ -99,41 +99,90 @@ export class TableKalendarComponent implements OnInit {
     });
   }
 
+  calcsOther(nameColumn, ) {
+
+  }
+  calcsTotal(nameColumn, arrIndex: any, otherIndex) {
+    let result = 0;
+    console.log('calcsTotal');
+    console.log(arrIndex);
+    console.log('calcsTotal');
+    // result = parseFloat((result + (+e[value])).toFixed(2));
+    // this.table.forEach((e, index) => {
+    //   if (e instanceof OtherRow || e instanceof TotalRow) {
+    //     return;
+    //   } else {
+    //     result = parseFloat((result + (+e[nameColumn])).toFixed(2));
+    //   }
+    // });
+
+    for (let i = arrIndex[0]; i >= 0; i--) {
+      if (this.table[i] instanceof OtherRow || this.table[i] instanceof TotalRow) {
+        continue;
+      } else {
+        result = parseFloat((result + (+this.table[i][nameColumn])).toFixed(2));
+      }
+    }
+
+    this.table[otherIndex][nameColumn] = this.table[arrIndex[0]][nameColumn] - result;
+
+
+    // other[value] = parseFloat((total[value] - result).toFixed(2));
+    if (arrIndex.length !== 1) {
+
+
+      for (let indexTotal = 0; indexTotal < arrIndex.length; indexTotal++) {
+
+        result = this.table[arrIndex[indexTotal]][nameColumn];
+
+
+      //   for (let index = this.table[]; index > arrIndex[0]; index--) {
+      //   console.log(this.table.arrIndex[indexTotal]);
+      //   console.log(index);
+      //   // console.log(this.table[index]);
+      //   if (this.table[index] instanceof TotalRow) {
+      //     totalRow = this.table[index];
+      //     // continue;
+      //   } else {
+      //     result = parseFloat((result + (+this.table[index][nameColumn])).toFixed(2));
+      //     console.log(result);
+      //     // result = parseFloat((result + (+this.table[index][nameColumn])).toFixed(2));
+      //   }
+      // }
+
+
+      }
+
+      // for (let index = this.table.length; index > arrIndex[0]; index--) {
+      //   console.log(this.table.length);
+      //   console.log(index);
+      //   // console.log(this.table[index]);
+      //   if (this.table[index] instanceof TotalRow) {
+      //     totalRow = this.table[index];
+      //     // continue;
+      //   } else {
+      //     result = parseFloat((result + (+this.table[index][nameColumn])).toFixed(2));
+      //     console.log(result);
+      //     // result = parseFloat((result + (+this.table[index][nameColumn])).toFixed(2));
+      //   }
+      // }
+      // totalRow[nameColumn]
+    }
+  }
+
 
   calculateOtherRow(value, ) {
-    let other: OtherRow;
-    const total: TotalRow[] = [];
-    let result: number;
-    let ind = this.table.length;
-    result = 0;
-
+    let other: number;
+    const total: number[] = [];
     this.table.forEach((e, index) => {
       if (e instanceof OtherRow) {
-        other = e;
+        other = index;
       } else if (e instanceof TotalRow) {
-        total.push(e);
-        // total = e;
-        // ind = index;
-      } else {
-        result = parseFloat((result + (+e[value])).toFixed(2));
+        total.push(index);
       }
     });
-    // other[value] = parseFloat((total[value] - result).toFixed(2));
 
-
-
-
-    // for (let i = ind; i < this.table.length; i++) {
-    //   const element = this.table[i];
-    //   if (element instanceof TotalRow) {
-    //     const totalNext = element;
-    //   } else {
-    //     const resultTotal = parseFloat((result + (+element[value])).toFixed(2));
-    //   }
-    //   other[value] = parseFloat((total[value] - result).toFixed(2));
-    // }
-
-
+    this.calcsTotal(value, total, other);
     // this.table.forEach((e, index) => {
     //   ind = index;
     //   if (e instanceof OtherRow) {
