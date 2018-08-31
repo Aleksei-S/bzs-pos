@@ -27,7 +27,7 @@ export class ROW {
   }
 
 
-  calculateTotal() {
+  calculateLastCell() {
     let resultCMP = this['CMP'];
     let resultTotal = this['Total'];
     this.arrMonth.forEach((e, idx) => {

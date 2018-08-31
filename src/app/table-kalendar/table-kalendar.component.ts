@@ -99,79 +99,10 @@ export class TableKalendarComponent implements OnInit {
     });
   }
 
-  calcsOther(nameColumn, ) {
-
-  }
-  calcsTotal(nameColumn, arrIndex: any, otherIndex) {
-    let result = 0;
-    console.log('calcsTotal');
-    console.log(arrIndex);
-    console.log('calcsTotal');
-    // result = parseFloat((result + (+e[value])).toFixed(2));
-    // this.table.forEach((e, index) => {
-    //   if (e instanceof OtherRow || e instanceof TotalRow) {
-    //     return;
-    //   } else {
-    //     result = parseFloat((result + (+e[nameColumn])).toFixed(2));
-    //   }
-    // });
-
-    for (let i = arrIndex[0]; i >= 0; i--) {
-      if (this.table[i] instanceof OtherRow || this.table[i] instanceof TotalRow) {
-        continue;
-      } else {
-        result = parseFloat((result + (+this.table[i][nameColumn])).toFixed(2));
-      }
-    }
-
-    this.table[otherIndex][nameColumn] = this.table[arrIndex[0]][nameColumn] - result;
 
 
-    // other[value] = parseFloat((total[value] - result).toFixed(2));
-    if (arrIndex.length !== 1) {
 
-
-      for (let indexTotal = 0; indexTotal < arrIndex.length; indexTotal++) {
-
-        result = this.table[arrIndex[indexTotal]][nameColumn];
-
-
-      //   for (let index = this.table[]; index > arrIndex[0]; index--) {
-      //   console.log(this.table.arrIndex[indexTotal]);
-      //   console.log(index);
-      //   // console.log(this.table[index]);
-      //   if (this.table[index] instanceof TotalRow) {
-      //     totalRow = this.table[index];
-      //     // continue;
-      //   } else {
-      //     result = parseFloat((result + (+this.table[index][nameColumn])).toFixed(2));
-      //     console.log(result);
-      //     // result = parseFloat((result + (+this.table[index][nameColumn])).toFixed(2));
-      //   }
-      // }
-
-
-      }
-
-      // for (let index = this.table.length; index > arrIndex[0]; index--) {
-      //   console.log(this.table.length);
-      //   console.log(index);
-      //   // console.log(this.table[index]);
-      //   if (this.table[index] instanceof TotalRow) {
-      //     totalRow = this.table[index];
-      //     // continue;
-      //   } else {
-      //     result = parseFloat((result + (+this.table[index][nameColumn])).toFixed(2));
-      //     console.log(result);
-      //     // result = parseFloat((result + (+this.table[index][nameColumn])).toFixed(2));
-      //   }
-      // }
-      // totalRow[nameColumn]
-    }
-  }
-
-
-  calculateOtherRow(value, ) {
+  calcColumnTotal(value, ) {
     let other: number;
     const total: number[] = [];
     this.table.forEach((e, index) => {
@@ -181,64 +112,50 @@ export class TableKalendarComponent implements OnInit {
         total.push(index);
       }
     });
-
-    this.calcsTotal(value, total, other);
-    // this.table.forEach((e, index) => {
-    //   ind = index;
-    //   if (e instanceof OtherRow) {
-    //     other = e;
-    //   } else if (e instanceof TotalRow) {
-    //     total = e;
-    //   } else {
-    //     result = parseFloat((result + (+e[value])).toFixed(2));
-    //   }
-    // });
-    // other[value] = parseFloat((total[value] - result).toFixed(2));
-
-
-
-
+    this.calcsCMPandTotal(value, total, other);
   }
 
-  calculateCellRow(row, month, event) {
-    row.calculateTotal();
-    if (!(row instanceof TotalRow)) {
-      this.calculateTotalRow(month, event);
+  calcsCMPandTotal(nameColumn, arrIndex: any, otherIndex) {
+    let result = 0;
+    for (let i = arrIndex[0]; i >= 0; i--) {
+      if (this.table[i] instanceof OtherRow || this.table[i] instanceof TotalRow) {
+        continue;
+      } else {
+        result = parseFloat((result + (+this.table[i][nameColumn])).toFixed(2));
+      }
+    }
+    this.table[otherIndex][nameColumn] = this.table[arrIndex[0]][nameColumn] - result;
+    if (arrIndex.length !== 1) {
+      for (let indexTotal = 0; indexTotal < arrIndex.length; indexTotal++) {
+        if (!arrIndex[indexTotal + 1]) { break; }
+        result = this.table[arrIndex[indexTotal]][nameColumn];
+        for (let index = arrIndex[indexTotal] + 1; index < arrIndex[indexTotal + 1]; index++) {
+          result = (+result) + parseFloat(this.table[index][nameColumn]);
+        }
+        this.table[arrIndex[indexTotal + 1]][nameColumn] = result;
+      }
     }
   }
 
-  // calculateTotalRow(month, event) {
-  //   let total: TotalRow;
-  //   let result = 0;
-  //   this.table.forEach((e) => {
-  //     if (e instanceof TotalRow) {
-  //       total = e;
-  //     } else {
-  //       result = parseFloat((result + (+e[month][event])).toFixed(2));
-
-  //       // result =  parseFloat((result + (+e[month][event])).toFixed(2));
-  //     }
-  //   });
-  //   total[month][event] = result;
-  //   total.calculateTotal();
-  // }
-
-
-
-  calculateTotalRow(month, event) {
-    let total: TotalRow;
-    let result = 0;
-    this.table.forEach((e) => {
+  calculateCellRow(row, month, event) {
+    this.table.forEach((e, index) => {
       if (e instanceof TotalRow) {
-        total = e;
-      } else {
-        result = parseFloat((result + (+e[month][event])).toFixed(2));
-
-        // result =  parseFloat((result + (+e[month][event])).toFixed(2));
+        this.calculateTotalRow(index, month, event);
       }
+      e.calculateLastCell();
     });
-    total[month][event] = result;
-    total.calculateTotal();
+  }
+
+  calculateTotalRow(index, month, event) {
+    let result = 0;
+    for (let i = 0; i < index; i++) {
+      if (this.table[i] instanceof TotalRow) {
+        continue;
+      } else {
+        result = +result + parseFloat(this.table[i][month][event]);
+      }
+    }
+    this.table[index][month][event] = result;
   }
 
 

@@ -50,11 +50,11 @@
             </app-edit-cell-table>
           </td>
           <td >
-            <app-edit-cell-table [(value)]="row.Total" (updateValue)="this.row.Total=$event; calculateOtherRow('Total');">
+            <app-edit-cell-table [(value)]="row.Total" (updateValue)="this.row.Total=$event; calcColumnTotal('Total');">
             </app-edit-cell-table>
           </td>
           <td >
-            <app-edit-cell-table [(value)]="row.CMP" (updateValue)="this.row.CMP=$event; calculateOtherRow('CMP');">
+            <app-edit-cell-table [(value)]="row.CMP" (updateValue)="this.row.CMP=$event; calcColumnTotal('CMP');">
             </app-edit-cell-table>
           </td>
 
