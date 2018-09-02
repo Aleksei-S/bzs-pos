@@ -77,7 +77,7 @@
             {{this.percentRow.calcPercent()}}%
           </td>
           <td class="" *ngFor="let month of arrMonth">
-            <app-edit-cell-table [(value)]="percentRow[month]" (updateValue)="this.percentRow[month] = $event"></app-edit-cell-table>
+            <app-edit-cell-string [(value)]="percentRow[month]" (updateValue)="this.percentRow[month] = $event"></app-edit-cell-string>
           </td>
         </tr>
 

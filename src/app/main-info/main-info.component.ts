@@ -31,7 +31,7 @@ export class MainInfoComponent implements OnInit {
   changeTabs($event) {
     console.log($event);
     if ($event.index === 3 || $event.index === 4) {
-      this.kalendar.saveTable();
+      this.kalendar.calcSummYears();
       console.log(this.kalendar.table);
     }
 

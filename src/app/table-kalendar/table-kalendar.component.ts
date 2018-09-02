@@ -124,7 +124,7 @@ export class TableKalendarComponent implements OnInit {
         result = parseFloat((result + (+this.table[i][nameColumn])).toFixed(2));
       }
     }
-    this.table[otherIndex][nameColumn] = this.table[arrIndex[0]][nameColumn] - result;
+    this.table[otherIndex][nameColumn] = (this.table[arrIndex[0]][nameColumn] - result).toFixed(2);
     if (arrIndex.length !== 1) {
       for (let indexTotal = 0; indexTotal < arrIndex.length; indexTotal++) {
         if (!arrIndex[indexTotal + 1]) { break; }
@@ -152,7 +152,7 @@ export class TableKalendarComponent implements OnInit {
       if (this.table[i] instanceof TotalRow) {
         continue;
       } else {
-        result = +result + parseFloat(this.table[i][month][event]);
+        result = +result + parseFloat((this.table[i][month][event]));
       }
     }
     this.table[index][month][event] = result;
@@ -187,37 +187,44 @@ export class TableKalendarComponent implements OnInit {
   dropBasket(ev) {
     if (this.table[this.dragIndex] instanceof MainRow) { return; }
     this.table.splice(this.dragIndex, 1); // удалить 1 строку
+    this.calcColumnTotal('CMP', );
+    this.calcColumnTotal('Total', );
+    this.arrMonth.forEach((month) => {
+      this.calculateCellRow(this.table[0], month, 'CMP');
+      this.calculateCellRow(this.table[0], month, 'Total');
+    });
+    
   }
 
 
 
 
-  saveTable() {
-    // // console.log('ngOnDestroy');
-    // if (this.arrMonth.length === 0) {
-    //   return;
-    // }
-    // let total: TotalRow;
-    // this.table.forEach((e) => {
-    //   if (e instanceof TotalRow) {
-    //     total = e;
-    //   }
-    // });
+  calcSummYears() {
+    // console.log('ngOnDestroy');
+    if (this.arrMonth.length === 0) {
+      return;
+    }
+    let total: TotalRow;
+    this.table.forEach((e) => {
+      if (e instanceof TotalRow) {
+        total = e;
+      }
+    });
 
-    // const keys = [];
-    // let year = this.arrMonth[0].slice(-4);
-    // let resultCMP = 0;
-    // this.arrMonth.forEach((month) => {
-    //   if (year !== month.slice(-4)) {
-    //     keys.push({ year: year, resultCMP: resultCMP });
-    //     resultCMP = total[month]['CMP'];
-    //     year = month.slice(-4);
-    //   } else {
-    //     resultCMP = parseFloat((resultCMP + (+total[month]['CMP'])).toFixed(2));
-    //   }
-    // });
-    // keys.push({ year: year, resultCMP: resultCMP });
-    // this.infoService.yearSumma$.next(keys);
+    const keys = [];
+    let year = this.arrMonth[0].slice(-4);
+    let resultCMP = 0;
+    this.arrMonth.forEach((month) => {
+      if (year !== month.slice(-4)) {
+        keys.push({ year: year, resultCMP: resultCMP });
+        resultCMP = total[month]['CMP'];
+        year = month.slice(-4);
+      } else {
+        resultCMP = parseFloat((resultCMP + (+total[month]['CMP'])).toFixed(2));
+      }
+    });
+    keys.push({ year: year, resultCMP: resultCMP });
+    this.infoService.yearSumma$.next(keys);
   }
 
 

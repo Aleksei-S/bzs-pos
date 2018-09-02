@@ -11,7 +11,10 @@ export class ValueTablePipe implements PipeTransform {
     if (+value === 0) {
       return '-';
     }
-    value = value.toString().replace('.', ',');
+    if (+value > 0) {
+      value = +value;
+      return value.toFixed(2).toString().replace('.', ',');
+    }
     return value;
   }
 
