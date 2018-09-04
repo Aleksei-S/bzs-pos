@@ -6,79 +6,136 @@
 </mat-form-field>
 
 <table>
-    <tr>
-      <td> Наименование</td>
-      <td >Норма на млн. руб. СМР,м2</td>
-      <td >Объем СМР в макс. год, тыс. руб. (BRN)</td>
-      <td >Общая потребность м2</td>
-    </tr>
+  <tr>
+    <td> Наименование</td>
+    <td>Норма на млн. руб. СМР,м2</td>
+    <td>Объем СМР в макс. год, тыс. руб. (BRN)</td>
+    <td>Общая потребность м2</td>
+  </tr>
 
-    <tr>
-      <td class="tdLeft">Склад материально-технический отапливаемый</td>
-      <td >24,0</td>
-      <td >{{yearSumma.resultCMP | numberTab}}<br>k=2,7х1267х{{coef | numberTab}}</td>
-      <td >{{(yearSumma.resultCMP/(2.7*1267*coef)*24).toFixed(2) | numberTab}}</td>
-    </tr>
+  <tr>
+    <td class="tdLeft">Склад материально-технический отапливаемый</td>
+    <td>24,0</td>
+    <td>{{yearMaxSumma | numberTab}}
+      <br>k=2,7х1267х{{coef | numberTab}}</td>
+    <td>{{(yearMaxSumma/(2.7*1267*coef)*24).toFixed(2) | numberTab}}</td>
+  </tr>
 
-    <tr>
-      <td class="tdLeft">Склад материально-технический не отапливаемый</td>
-      <td >29,0</td>
-      <td >-"-</td>
-      <td >{{(yearSumma.resultCMP/(2.7*1267*coef)*29).toFixed(2) | numberTab}}</td>
-    </tr>
+  <tr>
+    <td class="tdLeft">Склад материально-технический не отапливаемый</td>
+    <td>29,0</td>
+    <td>-"-</td>
+    <td>{{(yearMaxSumma/(2.7*1267*coef)*29).toFixed(2) | numberTab}}</td>
+  </tr>
 
-    <tr>
-      <td class="tdLeft">Склад для хранения материалов (цемента, гипса, извести и т.д.)</td>
-      <td >21,2</td>
-      <td >-"-</td>
-      <td >{{(yearSumma.resultCMP/(2.7*1267*coef)*21.2).toFixed(2) | numberTab}}</td>
-    </tr>
-    <tr>
-      <td class="tdLeft">Навес</td>
-      <td >13,0</td>
-      <td >-"-</td>
-      <td >{{(yearSumma.resultCMP/(2.7*1267*coef)*13).toFixed(2) | numberTab}}</td>
-    </tr>
-    <tr>
-      <td class="tdLeft">Открытые площадки</td>
-      <td >300,0</td>
-      <td >-"-</td>
-      <td >{{(yearSumma.resultCMP/(2.7*1267*coef)*300).toFixed(2) | numberTab}}</td>
-    </tr>
+  <tr>
+    <td class="tdLeft">Склад для хранения материалов (цемента, гипса, извести и т.д.)</td>
+    <td>21,2</td>
+    <td>-"-</td>
+    <td>{{(yearMaxSumma/(2.7*1267*coef)*21.2).toFixed(2) | numberTab}}</td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Навес</td>
+    <td>13,0</td>
+    <td>-"-</td>
+    <td>{{(yearMaxSumma/(2.7*1267*coef)*13).toFixed(2) | numberTab}}</td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Открытые площадки</td>
+    <td>300,0</td>
+    <td>-"-</td>
+    <td>{{(yearMaxSumma/(2.7*1267*coef)*300).toFixed(2) | numberTab}}</td>
+  </tr>
 
-  </table>
+</table>
 
 
 <br>
 <br>
-  
+<button (click)="clickOn()">button</button>
+
 <table>
   <tr>
     <td rowspan="2"> Наименование ресурсов</td>
     <td rowspan="2">Един. изм.</td>
     <td rowspan="2">Коэфф.</td>
-    <td rowspan="2" >Норма на 1 млн руб. СМР </td>
-    <td colspan="1" >Потребность на  период строительства</td>
+    <td [attr.colspan]="yearSumma.length" >Потребность на период строительства</td>
+    <!-- <td colspan="yearSumma.length">Потребность на период строительства</td> -->
   </tr>
 
+  <tr>
+    <td *ngFor="let CMP of yearSumma">{{CMP.year}}</td>
+  </tr>
+  <!-- this.arrSummaYearResources[i].summa/(2.7*1267*coefficient)*this.arrSummaYearResources[i].electric*1.02).toFixed(2); -->
   <tr>
     <td class="tdLeft">Объем СМР</td>
-    <td >тыс.руб. (BRN)</td>
-    <td >2,7х1267х{{coef}}</td>
-    <td >-</td>
-    <td >GG</td>
+    <td>тыс.руб. (BRN)</td>
+    <td>2,7х1267х{{coef}}</td>
+    <td *ngFor="let CMP of yearSumma">{{CMP.resultCMP}}</td>
   </tr>
-
   <tr>
     <td class="tdLeft">Электроэнергия</td>
-    <td >ква</td>
-    <td >1,02</td>
-    <td >GG</td>
-    <td >GG</td>
+    <td>ква</td>
+    <td>1,02</td>
+    <td *ngFor="let CMP of yearSumma; let i = index;">
+      {{calcCellResourceTable(CMP.resultCMP, 1.02, arrResourceTable[i].electric)}}
+      <br>{{arrResourceTable[i].electric}}
+    </td>
   </tr>
-
-
-
+  <tr>
+    <td class="tdLeft">Топливо</td>
+    <td>тн</td>
+    <td>1,02</td>
+    <td *ngFor="let CMP of yearSumma; let i = index;">
+{{calcCellResourceTable(CMP.resultCMP, 1.02, arrResourceTable[i].oil)}} 
+<br>{{arrResourceTable[i].oil}}
+      <!-- {{(CMP.resultCMP/(2.7*1267*coef)*arrResourceTable[i].oil*1.02).toFixed(2)}} -->
+    </td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Пар</td>
+    <td>кг/час</td>
+    <td>1,02</td>
+    <td *ngFor="let CMP of yearSumma; let i = index;">
+      {{calcCellResourceTable(CMP.resultCMP, 1.02, arrResourceTable[i].vapor)}}
+      <br>{{arrResourceTable[i].vapor}}
+    </td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Сжатый воздух</td>
+    <td>шт</td>
+    <td>1,03</td>
+    <td *ngFor="let CMP of yearSumma; let i = index;">
+      {{calcCellResourceTable(CMP.resultCMP, 1.03, arrResourceTable[i].compresAir, true)}}
+      <br>{{arrResourceTable[i].compresAir}}
+    </td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Вода на противопожарные нуж-ды</td>
+    <td>л/сек</td>
+    <td>-</td>
+    <td *ngFor="let CMP of yearSumma; let i = index;">
+      {{20}}
+    </td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Вода на хоз.-питьевые нужды</td>
+    <td>л/сек</td>
+    <td>1,03</td>
+    <td *ngFor="let CMP of yearSumma; let i = index;">
+      {{calcCellResourceTable(CMP.resultCMP, 1.03, arrResourceTable[i].waterHouse)}}
+      <br>{{arrResourceTable[i].waterHouse}}
+    </td>
+  </tr>
+  <tr>
+    <td class="tdLeft">Кислород</td>
+    <td>м3</td>
+    <td>1,03</td>
+    <td *ngFor="let CMP of yearSumma; let i = index;">
+        {{calcCellResourceTable(CMP.resultCMP, 1.03, arrResourceTable[i].oxyden)}}
+        <br>{{arrResourceTable[i].oxyden}}
+    </td>
+  </tr>
 </table>
 
 
@@ -90,29 +147,7 @@
 <!-- <table class="table table-bordered  table-hover  table-condensed typicalTab">
 
 		
-		<tr>
-			<td class="tdLeft">Топливо</td>
-			<td >тн</td>
-			<td >1,02</td>
-			<td ng-show="tableResources.visi">{{tableResources.arrSummaYearResources[0].oil}}</td>
-			<td ng-repeat="td in tableResources.objResourcesArr track by $index">{{td.oil}}<span ng-show="!tableResources.visi"><br>{{td.oilCoef}}</span></td>
-		</tr>
 
-		<tr>
-			<td class="tdLeft">Пар</td>
-			<td >кг/час</td>
-			<td >1,02</td>
-			<td ng-show="tableResources.visi">{{tableResources.arrSummaYearResources[0].vapor}}</td>
-			<td ng-repeat="td in tableResources.objResourcesArr track by $index">{{td.vapor}}<span ng-show="!tableResources.visi"><br>{{td.vaporCoef}}</span></td>
-		</tr>
-
-		<tr>
-				<td class="tdLeft">Сжатый воздух</td>
-				<td >шт</td>
-				<td >1,03</td>
-				<td ng-show="tableResources.visi">{{tableResources.arrSummaYearResources[0].compresAir}}</td>
-				<td ng-repeat="td in tableResources.objResourcesArr track by $index">{{td.compresAir}}<span ng-show="!tableResources.visi"><br>{{td.compresAirCoef}}</span></td>
-			</tr>
 	
 			<tr>
 				<td class="tdLeft">Вода на противопожарные нуж-ды</td>

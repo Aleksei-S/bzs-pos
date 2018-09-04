@@ -31,7 +31,6 @@ import { ValueTablePipe } from './component/edit-cell-table/edit-cell-table.comp
 import { CalculationWorkersComponent } from './calculation-workers/calculation-workers.component';
 
 import { CalculationStorehouseComponent } from './calculation-storehouse/calculation-storehouse.component';
-import { CalculationEnergyResourcesComponent } from './calculation-energy-resources/calculation-energy-resources.component';
 import { NumberTabPipe } from './pipe/number-tab.pipe';
 
 import { KonvaModule } from 'ng2-konva';
@@ -49,7 +48,6 @@ import { EditCellStringComponent } from './component/edit-cell-string/edit-cell-
     ValueTablePipe,
     CalculationWorkersComponent,
     CalculationStorehouseComponent,
-    CalculationEnergyResourcesComponent,
     NumberTabPipe,
     InfoHouseComponent,
     EditCellStringComponent,
