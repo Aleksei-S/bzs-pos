@@ -206,10 +206,11 @@ export class InfoHouseComponent implements OnInit, AfterViewInit {
     const arr = arrWarter.map(element => {
       element = element.replace(',', '.');
       element = parseFloat(element);
-      if (this.maxLevel_water < element) {
-        this.maxLevel_water = element;
-        console.log(this.maxLevel_water);
-      }
+      this.maxLevel_water = element;
+      // if (this.maxLevel_water < element) {
+      //   this.maxLevel_water = element;
+      //   console.log(this.maxLevel_water);
+      // }
     });
     this.checkDraw();
   }
